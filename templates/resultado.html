@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Recomendaciones</title>
+    <link rel="stylesheet" href="../static/styles2.css">
+</head>
+<body>
+    <div class="frase">
+        <h1>Recomendaciones para ti</h1>
+    </div>
+
+    <!-- Sección con el marco blanco -->
+    <div class="resultado-comidas">
+        <h2>Desayuno:</h2>
+        <p>{{ recomendaciones['desayuno'][0]['nombre'] }}</p>
+
+        <h2>Almuerzo:</h2>
+        <p>{{ recomendaciones['almuerzo'][0]['nombre'] }}</p>
+
+        <h2>Cena:</h2>
+        <p>{{ recomendaciones['cena'][0]['nombre'] }}</p>
+
+        <h2>Snack:</h2>
+        <p>{{ recomendaciones['snack'][0]['nombre'] }}</p>
+    </div>
+
+    <!-- Botón para volver al inicio -->
+    <a href="/index" class="btn-back">Volver al Inicio</a>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Ignorar archivos y carpetas generados
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar carpetas específicas
+venv/

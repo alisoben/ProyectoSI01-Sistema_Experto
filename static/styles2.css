@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+/* General reset for margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', serif; /* Default font */
+}
+
+body {
+    height: 100vh;
+    background: url('./images/welcome_background.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    width: 85%;
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+    left: -200px; /* Ajusta esto según necesites para mover el formulario un poco a la izquierda */
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.restricciones, .medical-conditions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.btn, .btn-submit {
+    padding: 6px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ff6347;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn:hover, .btn-submit:hover {
+    background-color: #ff4500;
+}
+
+.btn.selected {
+    background-color: #9ed269;
+    color: white;
+    font-weight: bold;
+}
+
+.selected {
+    background-color: #4CAF50; /* Verde para indicar que está seleccionado */
+    color: white;
+}
+
+
+.btn-submit {
+    background-color: #32cd32;
+    padding: 8px 20px;
+}
+
+.btn-submit:hover {
+    background-color: #228b22;
+}
+
+h1 {
+    font-family: 'Lato', sans-serif;
+    font-size: 2.8rem;
+    color: white;
+    margin-bottom: 25px;
+    position: relative; /* Agrega posición relativa para ajustar con left */
+    left: 100px; /* Mueve un poco a la derecha para centrar visualmente */
+    text-shadow: 2px 2px 8px #000;
+}
+
+.btn-back {
+    background-color: #ff6347; /* Color de fondo rojo-naranja */
+    color: white; /* Color de texto blanco */
+    padding: 10px 20px; /* Ajuste del relleno para hacerlo más grueso */
+    border-radius: 20px; /* Bordes redondeados para simular el botón de la imagen */
+    text-decoration: none; /* Sin subrayado en el texto */
+    font-size: 0.9rem; /* Tamaño de la fuente */
+    font-weight: bold; /* Negrita para el texto */
+    font-family: 'Lato', sans-serif; /* Fuente Lato que parece ser la misma de 'Obtener recomendaciones' */
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Ajuste para posicionar correctamente */
+    cursor: pointer; /* Cursor en forma de puntero para indicar que es clickeable */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra ligera para profundidad */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para efecto 3D */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves al cambiar color y sombra */
+}
+
+.btn-back:hover {
+    background-color: #e55347; /* Color al pasar el ratón por encima */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5); /* Sombra más prominente al pasar el cursor */
+}
+
+.gender-options-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column; /* Cambio a disposición vertical */
+    align-items: center; /* Alineación centrada */
+    margin-bottom: 15px;
+}
+
+.gender-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre los botones de opción */
+}
+
+.gender-options-container label {
+    margin: 0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.gender-options-container input[type="radio"] {
+    margin-right: 5px; /* Espacio entre el botón y el texto */
+}
+
+label[for="gender"] {
+    font-size: 16px; /* Aumento del tamaño de fuente para 'Género' */
+    color: #333;
+    display: block;
+    text-align: center; /* Centrar el texto si es necesario */
+    margin-bottom: 10px; /* Espacio debajo de la etiqueta para separarla de las opciones */
+}
+
+.resultado-comidas {
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con 90% de opacidad */
+    padding: 20px; /* Espacio interior */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-top: 30px; /* Separación respecto a la parte superior */
+    width: 90%; /* Ajustar el ancho */
+    max-width: 800px; /* Tamaño máximo */
+    margin-left: 20%; /* Ajustar pa la derecha */
+    text-align: left; /* Alineación del contenido dentro del marco */
+}
+
+.resultado-comidas h2 {
+    color: #333; /* Color de los encabezados */
+    margin-bottom: 10px; /* Separación entre el título y el texto */
+}
+
+.resultado-comidas p {
+    margin-bottom: 15px; /* Espacio entre cada comida recomendada */
+    font-size: 1.1rem; /* Tamaño de fuente un poco mayor para el contenido */
+}
