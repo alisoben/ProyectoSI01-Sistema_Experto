@@ -2,6 +2,3 @@
 __pycache__/
 *.pyc
 *.pyo
-
-# Ignorar carpetas específicas
-venv/
