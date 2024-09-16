@@ -50,10 +50,13 @@ def recomendaciones():
 
         # Obtener recomendaciones usando el motor de inferencia
         from knowledge.base_conocimiento import comidas
-        from models.motor_inferencia import motor_inferencia
+        
+        from models.motor_experta import motor_inferencia
+    #    Para usar el motor de inferencia con anteior usar el de abajo :v
+    #    from models.motor_inferencia import motor_inferencia
 
         recomendaciones_dieta = motor_inferencia(usuario, comidas)
-
+        
         # Convertir las recomendaciones a formato JSON para imprimirlas también
         recomendaciones_json = json.dumps(recomendaciones_dieta, indent=4)
         print("Recomendaciones generadas en formato JSON:")

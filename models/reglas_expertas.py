@@ -1,82 +1,263 @@
-from experta import Fact, KnowledgeEngine, Rule, AND, OR, P
+from experta import *
 
+# Definimos los hechos: Usuario y Comida
 class Usuario(Fact):
-    """Hecho que representa a un usuario."""
+    """Información del usuario."""
     pass
 
 class Comida(Fact):
-    """Hecho que representa una comida."""
+    """Información de la comida."""
     pass
 
-class MotorRecomendacion(KnowledgeEngine):
+# Definimos el sistema de recomendación
+class SistemaRecomendacion(KnowledgeEngine):
 
-    @Rule(AND(Usuario(imc=P(lambda imc: imc >= 25)), Comida(calorias=P(lambda cal: cal <= 300))))
-    def regla_imc_sobrepeso(self):
-        self.declare(Fact(puntaje=25))  # Comidas bajas en calorías para personas con sobrepeso
+    # 1. Reglas basadas en el IMC y calorías
+    @Rule(Usuario(imc=P(lambda imc: imc >= 30)), Comida(calorias=P(lambda calorias: calorias < 200)))
+    def comida_muy_baja_calorias_obesidad(self):
+        self.declare(Fact(puntaje=50))  # Obesidad con comidas muy bajas en calorías
 
-    @Rule(AND(Usuario(imc=P(lambda imc: imc < 18.5)), Comida(calorias=P(lambda cal: cal >= 400))))
-    def regla_imc_bajo_peso(self):
-        self.declare(Fact(puntaje=15))  # Personas con bajo peso necesitan más calorías
+    @Rule(Usuario(imc=P(lambda imc: imc >= 30)), Comida(calorias=P(lambda calorias: 200 <= calorias <= 300)))
+    def comida_baja_calorias_obesidad(self):
+        self.declare(Fact(puntaje=40))  # Obesidad con comidas moderadamente bajas en calorías
 
-    # Reglas basadas en el género
-    @Rule(AND(Usuario(genero="M"), Comida(calorias=P(lambda cal: cal >= 500))))
-    def regla_genero_masculino(self):
-        self.declare(Fact(puntaje=10))  # Hombres tienden a necesitar más calorías
+    @Rule(Usuario(imc=P(lambda imc: imc >= 30)), Comida(calorias=P(lambda calorias: calorias > 300)))
+    def comida_media_calorias_obesidad(self):
+        self.declare(Fact(puntaje=10))  # Penalizar comidas con más de 300 calorías para personas con obesidad
 
-    @Rule(AND(Usuario(genero="F"), Comida(calorias=P(lambda cal: cal <= 500))))
-    def regla_genero_femenino(self):
-        self.declare(Fact(puntaje=10))  # Control de calorías más común en mujeres
+    @Rule(Usuario(imc=P(lambda imc: 25 <= imc < 30)), Comida(calorias=P(lambda calorias: calorias < 200)))
+    def comida_muy_baja_calorias_sobrepeso(self):
+        self.declare(Fact(puntaje=40))
 
-    @Rule(AND(Usuario(genero="F"), Comida(proteinas=P(lambda prot: prot >= 15))))
-    def regla_genero_femenino_proteinas(self):
-        self.declare(Fact(puntaje=15))  # Aumentar proteínas es importante para las mujeres
+    @Rule(Usuario(imc=P(lambda imc: 25 <= imc < 30)), Comida(calorias=P(lambda calorias: 200 <= calorias <= 300)))
+    def comida_baja_calorias_sobrepeso(self):
+        self.declare(Fact(puntaje=30))
 
-    # Reglas para la actividad física
-    @Rule(AND(Usuario(actividad_fisica="alto"), Comida(proteinas=P(lambda prot: prot >= 20))))
-    def regla_alta_actividad_fisica(self):
-        self.declare(Fact(puntaje=30))  # Alta proteína para actividades físicas intensas
+    @Rule(Usuario(imc=P(lambda imc: 25 <= imc < 30)), Comida(calorias=P(lambda calorias: calorias > 300)))
+    def comida_media_calorias_sobrepeso(self):
+        self.declare(Fact(puntaje=5))  # Penalización leve por sobrepeso
 
-    @Rule(AND(Usuario(actividad_fisica="moderado"), Comida(proteinas=P(lambda prot: prot >= 15))))
-    def regla_moderada_actividad_fisica(self):
-        self.declare(Fact(puntaje=20))  # Moderado nivel de actividad, requiere proteína pero menos
+    @Rule(Usuario(imc=P(lambda imc: imc < 18.5)), Comida(calorias=P(lambda calorias: calorias >= 400)))
+    def comida_alta_calorias_bajo_peso(self):
+        self.declare(Fact(puntaje=25))  # Personas con bajo peso necesitan más calorías
 
-    @Rule(AND(Usuario(actividad_fisica="baja"), Comida(calorias=P(lambda cal: cal <= 300))))
-    def regla_baja_actividad_fisica(self):
-        self.declare(Fact(puntaje=25))  # Personas con actividad baja deben controlar más las calorías
+    # 2. Reglas basadas en el género y proteínas
+    @Rule(Usuario(genero="M"), Comida(proteinas=P(lambda proteinas: proteinas >= 20)))
+    def hombre_alta_proteina(self):
+        self.declare(Fact(puntaje=20))
 
-    # Reglas para la edad
-    @Rule(AND(Usuario(edad=P(lambda edad: edad < 18)), Comida(calorias=P(lambda cal: cal >= 600))))
-    def regla_edad_adolescente_calorias(self):
-        self.declare(Fact(puntaje=10))  # Los adolescentes requieren más calorías
+    @Rule(Usuario(genero="M"), Comida(proteinas=P(lambda proteinas: 10 <= proteinas < 20)))
+    def hombre_moderada_proteina(self):
+        self.declare(Fact(puntaje=10))
 
-    @Rule(AND(Usuario(edad=P(lambda edad: 18 <= edad < 30)), Comida(calorias=P(lambda cal: cal >= 500))))
-    def regla_edad_joven_calorias(self):
-        self.declare(Fact(puntaje=10))  # Los jóvenes pueden requerir más calorías
+    @Rule(Usuario(genero="F"), Comida(proteinas=P(lambda proteinas: proteinas >= 15)))
+    def mujer_alta_proteinas(self):
+        self.declare(Fact(puntaje=20))
 
-    @Rule(AND(Usuario(edad=P(lambda edad: 30 <= edad <= 50)), Comida(calorias=P(lambda cal: cal <= 400))))
-    def regla_edad_adulto_calorias(self):
-        self.declare(Fact(puntaje=20))  # Control de calorías recomendado para adultos
+    @Rule(Usuario(genero="F"), Comida(proteinas=P(lambda proteinas: 10 <= proteinas < 15)))
+    def mujer_moderada_proteinas(self):
+        self.declare(Fact(puntaje=10))
 
-    @Rule(AND(Usuario(edad=P(lambda edad: edad > 65)), Comida(proteinas=P(lambda prot: prot >= 20))))
-    def regla_edad_mayor_proteinas(self):
-        self.declare(Fact(puntaje=35))  # Mayor énfasis en proteínas para personas mayores
+    @Rule(Usuario(genero="M"), Comida(proteinas=P(lambda proteinas: 5 <= proteinas < 10)))
+    def hombre_baja_proteina(self):
+        self.declare(Fact(puntaje=5))
 
-    # Reglas para condiciones médicas
-    @Rule(AND(Usuario(condiciones_medicas=P(lambda cond: "diabetes" in cond)), Comida(carbohidratos=P(lambda carb: carb <= 20))))
-    def regla_diabetes(self):
-        self.declare(Fact(puntaje=30))  # Control estricto de carbohidratos es vital para la diabetes
+    # 3. Reglas basadas en el nivel de actividad física
+    # **Actividad física alta**: más proteínas y calorías necesarias
+    @Rule(Usuario(actividad_fisica="alto"), Comida(proteinas=P(lambda proteinas: proteinas >= 25)))
+    def alta_proteina_muy_alto_ejercicio(self):
+        self.declare(Fact(puntaje=50))  # Gran cantidad de proteínas para ejercicios intensos
 
-    @Rule(AND(Usuario(condiciones_medicas=P(lambda cond: "hipertension" in cond)), Comida(sodio=P(lambda sod: sod <= 100))))
-    def regla_hipertension(self):
-        self.declare(Fact(puntaje=25))  # Control del sodio es clave para la hipertensión
+    @Rule(Usuario(actividad_fisica="alto"), Comida(proteinas=P(lambda proteinas: 20 <= proteinas < 25)))
+    def alta_proteina_alto_ejercicio(self):
+        self.declare(Fact(puntaje=40))  # Proteínas suficientes para mantener actividad alta
 
-    @Rule(AND(Usuario(condiciones_medicas=P(lambda cond: "anemia" in cond)), Comida(nutrientes=P(lambda nut: "hierro" in nut))))
-    def regla_anemia(self):
-        self.declare(Fact(puntaje=35))  # El hierro es vital para personas con anemia
+    @Rule(Usuario(actividad_fisica="alto"), Comida(proteinas=P(lambda proteinas: 15 <= proteinas < 20)))
+    def moderada_proteina_alto_ejercicio(self):
+        self.declare(Fact(puntaje=20))  # Proteínas moderadas, aceptables para actividad alta
 
-    # Reglas para preferencias alimenticias
-    @Rule(AND(Usuario(preferencias=P(lambda prefs: any(pref in prefs for pref in ["sin gluten", "vegetariano"]))), Comida(categorias=P(lambda cat: "sin gluten" in cat))))
-    def regla_preferencias_alimenticias(self):
-        self.declare(Fact(puntaje=20))  # Preferencias alimenticias del usuario
+    @Rule(Usuario(actividad_fisica="alto"), Comida(proteinas=P(lambda proteinas: proteinas < 15)))
+    def baja_proteina_alto_ejercicio(self):
+        self.declare(Fact(puntaje=-10))  # Penalización: proteína baja para actividad alta
 
-    # Puedes seguir añadiendo más reglas según las necesidades del sistema
+    # Para comidas con alto contenido calórico en usuarios de actividad alta
+    @Rule(Usuario(actividad_fisica="alto"), Comida(calorias=P(lambda calorias: calorias >= 500)))
+    def alta_calorias_alto_ejercicio(self):
+        self.declare(Fact(puntaje=40))  # Se requiere una cantidad alta de calorías para actividad intensa
+
+    @Rule(Usuario(actividad_fisica="alto"), Comida(calorias=P(lambda calorias: 400 <= calorias < 500)))
+    def moderada_calorias_alto_ejercicio(self):
+        self.declare(Fact(puntaje=30))  # Aceptable cantidad de calorías
+
+    @Rule(Usuario(actividad_fisica="alto"), Comida(calorias=P(lambda calorias: 300 <= calorias < 400)))
+    def baja_calorias_alto_ejercicio(self):
+        self.declare(Fact(puntaje=10))  # Un poco bajo para actividad intensa
+
+    @Rule(Usuario(actividad_fisica="alto"), Comida(calorias=P(lambda calorias: calorias < 300)))
+    def muy_baja_calorias_alto_ejercicio(self):
+        self.declare(Fact(puntaje=-20))  # Penalización por calorías insuficientes
+
+    # **Actividad física moderada**: moderación en proteínas y calorías
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(proteinas=P(lambda proteinas: 20 <= proteinas < 25)))
+    def moderada_proteina_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=30))  # Proteínas adecuadas para actividad moderada
+
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(proteinas=P(lambda proteinas: 15 <= proteinas < 20)))
+    def moderada_proteina_para_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=20))  # Proteínas moderadas para actividad moderada
+
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(proteinas=P(lambda proteinas: proteinas < 15)))
+    def baja_proteina_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=-10))  # Penalización por baja proteína
+
+    # Para calorías en usuarios con actividad moderada
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(calorias=P(lambda calorias: 400 <= calorias < 500)))
+    def alta_calorias_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=30))  # Calorías altas pero aceptables
+
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(calorias=P(lambda calorias: 300 <= calorias < 400)))
+    def moderada_calorias_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=20))  # Calorías moderadas adecuadas
+
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(calorias=P(lambda calorias: 200 <= calorias < 300)))
+    def baja_calorias_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=10))  # Un poco bajo para actividad moderada
+
+    @Rule(Usuario(actividad_fisica="moderado"), Comida(calorias=P(lambda calorias: calorias < 200)))
+    def muy_baja_calorias_moderado_ejercicio(self):
+        self.declare(Fact(puntaje=-20))  # Penalización por calorías insuficientes
+
+    # **Actividad física baja**: se deben evitar las calorías altas y demasiadas proteínas
+    @Rule(Usuario(actividad_fisica="baja"), Comida(proteinas=P(lambda proteinas: 15 <= proteinas < 20)))
+    def alta_proteina_baja_ejercicio(self):
+        self.declare(Fact(puntaje=20))  # Cantidad aceptable de proteínas
+
+    @Rule(Usuario(actividad_fisica="baja"), Comida(proteinas=P(lambda proteinas: 10 <= proteinas < 15)))
+    def moderada_proteina_baja_ejercicio(self):
+        self.declare(Fact(puntaje=10))  # Un nivel bajo pero suficiente de proteínas
+
+    @Rule(Usuario(actividad_fisica="baja"), Comida(proteinas=P(lambda proteinas: proteinas < 10)))
+    def baja_proteina_baja_ejercicio(self):
+        self.declare(Fact(puntaje=5))  # Aceptable pero bajo para actividad física baja
+
+    @Rule(Usuario(actividad_fisica="baja"), Comida(proteinas=P(lambda proteinas: proteinas >= 20)))
+    def demasiado_alta_proteina_baja_ejercicio(self):
+        self.declare(Fact(puntaje=-20))  # Penalización por proteínas en exceso para actividad baja
+
+    # Para comidas con calorías bajas en usuarios de actividad baja
+    @Rule(Usuario(actividad_fisica="baja"), Comida(calorias=P(lambda calorias: 200 <= calorias < 300)))
+    def moderada_calorias_baja_ejercicio(self):
+        self.declare(Fact(puntaje=30))  # Se requiere una cantidad moderada de calorías para actividad baja
+
+    @Rule(Usuario(actividad_fisica="baja"), Comida(calorias=P(lambda calorias: calorias < 200)))
+    def baja_calorias_baja_ejercicio(self):
+        self.declare(Fact(puntaje=40))  # Buenas comidas bajas en calorías
+
+    @Rule(Usuario(actividad_fisica="baja"), Comida(calorias=P(lambda calorias: 300 <= calorias < 400)))
+    def demasiadas_calorias_baja_ejercicio(self):
+        self.declare(Fact(puntaje=10))  # Un poco alto en calorías, pero aceptable
+
+    @Rule(Usuario(actividad_fisica="baja"), Comida(calorias=P(lambda calorias: calorias > 400)))
+    def exceso_calorias_baja_ejercicio(self):
+        self.declare(Fact(puntaje=-30))  # Penalización por calorías en exceso
+
+    # 4. Reglas basadas en la edad
+    @Rule(Usuario(edad=P(lambda edad: edad < 18)), Comida(calorias=P(lambda calorias: calorias >= 600)))
+    def adolescente_alta_calorias(self):
+        self.declare(Fact(puntaje=10))
+
+    @Rule(Usuario(edad=P(lambda edad: edad < 18)), Comida(proteinas=P(lambda proteinas: proteinas >= 20)))
+    def adolescente_alta_proteinas(self):
+        self.declare(Fact(puntaje=20))
+
+    @Rule(Usuario(edad=P(lambda edad: 18 <= edad < 30)), Comida(calorias=P(lambda calorias: calorias >= 500)))
+    def joven_alta_calorias(self):
+        self.declare(Fact(puntaje=10))
+
+    @Rule(Usuario(edad=P(lambda edad: 18 <= edad < 30)), Comida(proteinas=P(lambda proteinas: proteinas >= 15)))
+    def joven_alta_proteinas(self):
+        self.declare(Fact(puntaje=15))
+
+    @Rule(Usuario(edad=P(lambda edad: 30 <= edad <= 50)), Comida(calorias=P(lambda calorias: calorias <= 400)))
+    def adulto_baja_calorias(self):
+        self.declare(Fact(puntaje=20))
+
+    @Rule(Usuario(edad=P(lambda edad: 51 <= edad <= 65)), Comida(proteinas=P(lambda proteinas: proteinas >= 20)))
+    def mayor_alta_proteinas(self):
+        self.declare(Fact(puntaje=30))
+
+    @Rule(Usuario(edad=P(lambda edad: 51 <= edad <= 65)), Comida(calorias=P(lambda calorias: calorias <= 350)))
+    def mayor_baja_calorias(self):
+        self.declare(Fact(puntaje=20))
+
+    @Rule(Usuario(edad=P(lambda edad: edad > 65)), Comida(proteinas=P(lambda proteinas: proteinas >= 20)))
+    def anciano_alta_proteinas(self):
+        self.declare(Fact(puntaje=35))
+
+    @Rule(Usuario(edad=P(lambda edad: edad > 65)), Comida(calorias=P(lambda calorias: calorias <= 300)))
+    def anciano_baja_calorias(self):
+        self.declare(Fact(puntaje=25))
+
+    # 5. Reglas para condiciones médicas
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(carbohidratos=P(lambda carbohidratos: carbohidratos <= 20)))
+    def diabetes_baja_carbohidratos(self, condiciones):
+        if "diabetes" in condiciones:
+            self.declare(Fact(puntaje=30))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(categorias=MATCH.categorias))
+    def celiacos_sin_gluten(self, condiciones, categorias):
+        if "enfermedad celíaca" in condiciones and "sin gluten" in categorias:
+            self.declare(Fact(puntaje=35))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(sodio=P(lambda sodio: sodio <= 100)))
+    def hipertension_bajo_sodio(self, condiciones):
+        if "hipertension" in condiciones:
+            self.declare(Fact(puntaje=25))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(calorias=P(lambda calorias: calorias > 400)))
+    def eliminar_comida_por_condiciones(self, condiciones):
+        # Ejemplo: Elimina comidas con más de 400 calorías para usuarios con ciertas condiciones
+        if any(cond in condiciones for cond in ["obesidad", "insuficiencia renal"]):
+            self.declare(Fact(invalid=True))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(grasas=P(lambda grasas: grasas <= 10)))
+    def colesterol_alto_baja_grasas(self, condiciones):
+        if "colesterol alto" in condiciones:
+            self.declare(Fact(puntaje=30))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(nutrientes=MATCH.nutrientes))
+    def anemia_alto_hierro(self, condiciones, nutrientes):
+        if "anemia" in condiciones and "hierro" in nutrientes:
+            self.declare(Fact(puntaje=35))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(yodo=P(lambda yodo: yodo >= 30)))
+    def hipotiroidismo_alto_yodo(self, condiciones):
+        if "hipotiroidismo" in condiciones:
+            self.declare(Fact(puntaje=25))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(categorias=MATCH.categorias))
+    def intolerancia_lactosa_sin_lactosa(self, condiciones, categorias):
+        if "intolerancia a la lactosa" in condiciones and "sin lactosa" in categorias:
+            self.declare(Fact(puntaje=30))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(proteinas=P(lambda proteinas: proteinas <= 15)))
+    def insuficiencia_renal_baja_proteinas(self, condiciones):
+        if "insuficiencia renal" in condiciones:
+            self.declare(Fact(puntaje=30))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(categorias=MATCH.categorias))
+    def alergia_frutos_secos_sin_frutos_secos(self, condiciones, categorias):
+        if "alergia a los frutos secos" in condiciones and "sin frutos secos" in categorias:
+            self.declare(Fact(puntaje=35))
+
+    @Rule(Usuario(condiciones_medicas=MATCH.condiciones), Comida(calorias=P(lambda calorias: calorias <= 300)))
+    def obesidad_baja_calorias(self, condiciones):
+        if "obesidad" in condiciones:
+            self.declare(Fact(puntaje=30))
+
+
+    # 6. Reglas para preferencias alimenticias
+    @Rule(Usuario(preferencias=MATCH.preferencias), Comida(categorias=MATCH.categorias))
+    def preferencias_alimenticias(self, preferencias, categorias):
+        if any(pref in categorias for pref in preferencias):
+            self.declare(Fact(puntaje=20))
