@@ -356,7 +356,7 @@ class SistemaRecomendacion(KnowledgeEngine):
     def bajos_carbohidratos_mantener_peso(self):
         self.declare(Fact(puntaje=10))  # Carbohidratos bajos también funcionan
 
-    # 7. Reglas basadas en el objetivo: Ganar músculo
+    # 9. Reglas basadas en el objetivo: Ganar músculo
     # Calorias
     @Rule(Usuario(objetivo="Ganar músculo"), Comida(calorias=P(lambda calorias: calorias >= 500)))
     def alta_calorias_ganar_musculo(self):
