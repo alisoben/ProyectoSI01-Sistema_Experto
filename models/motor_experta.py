@@ -17,7 +17,8 @@ def puntuar_comida(comida, usuario):
         edad=usuario["edad"],
         actividad_fisica=usuario["actividad_fisica"],
         condiciones_medicas=usuario.get("condiciones_medicas", []),
-        preferencias=usuario.get("preferencias", [])
+        preferencias=usuario.get("preferencias", []),
+        objetivo=usuario["objetivo"]
     ))
 
     # Inicializa los hechos de Comida

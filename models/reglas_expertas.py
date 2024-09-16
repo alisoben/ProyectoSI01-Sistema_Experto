@@ -259,5 +259,164 @@ class SistemaRecomendacion(KnowledgeEngine):
     # 6. Reglas para preferencias alimenticias
     @Rule(Usuario(preferencias=MATCH.preferencias), Comida(categorias=MATCH.categorias))
     def preferencias_alimenticias(self, preferencias, categorias):
-        if any(pref in categorias for pref in preferencias):
-            self.declare(Fact(puntaje=20))
+        coincidencias = sum(1 for pref in preferencias if pref in categorias)  # Cuenta las coincidencias
+        if coincidencias > 0:
+            self.declare(Fact(puntaje=20 * coincidencias))  # Suma 20 puntos por cada coincidencia
+
+    # 7. Reglas basadas en el objetivo: Perder peso
+    # Calorias
+    @Rule(Usuario(objetivo="Perder peso"), Comida(calorias=P(lambda calorias: calorias < 200)))
+    def calorias_muy_bajas_perder_peso(self):
+        self.declare(Fact(puntaje=50))  # Comidas con muy pocas calorías son muy recomendadas para perder peso
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(calorias=P(lambda calorias: 200 <= calorias < 300)))
+    def calorias_bajas_perder_peso(self):
+        self.declare(Fact(puntaje=40))  # Comidas con calorías bajas siguen siendo buenas para perder peso
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(calorias=P(lambda calorias: 300 <= calorias < 400)))
+    def calorias_moderadas_perder_peso(self):
+        self.declare(Fact(puntaje=20))  # Las comidas moderadas en calorías se pueden permitir ocasionalmente
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(calorias=P(lambda calorias: calorias >= 400)))
+    def calorias_altas_perder_peso(self):
+        self.declare(Fact(puntaje=-20))  # Penalización por comidas con demasiadas calorías para perder peso
+    
+    # Proteinas
+    @Rule(Usuario(objetivo="Perder peso"), Comida(proteinas=P(lambda proteinas: proteinas >= 20)))
+    def alta_proteina_perder_peso(self):
+        self.declare(Fact(puntaje=40))  # Las comidas altas en proteínas ayudan a mantener la masa muscular
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(proteinas=P(lambda proteinas: 10 <= proteinas < 20)))
+    def moderada_proteina_perder_peso(self):
+        self.declare(Fact(puntaje=20))  # Una cantidad moderada de proteínas sigue siendo buena para perder peso
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(proteinas=P(lambda proteinas: proteinas < 10)))
+    def baja_proteina_perder_peso(self):
+        self.declare(Fact(puntaje=5))  # Comidas bajas en proteínas no son las mejores para perder peso
+
+    # Carbohidratos
+    @Rule(Usuario(objetivo="Perder peso"), Comida(carbohidratos=P(lambda carbohidratos: carbohidratos <= 20)))
+    def bajos_carbohidratos_perder_peso(self):
+        self.declare(Fact(puntaje=35))  # Control de carbohidratos es clave para perder peso
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(carbohidratos=P(lambda carbohidratos: 20 < carbohidratos <= 40)))
+    def moderados_carbohidratos_perder_peso(self):
+        self.declare(Fact(puntaje=20))  # Carbohidratos moderados pueden estar bien para ciertos usuarios
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(carbohidratos=P(lambda carbohidratos: carbohidratos > 40)))
+    def altos_carbohidratos_perder_peso(self):
+        self.declare(Fact(puntaje=-10))  # Penalización por demasiados carbohidratos
+
+    # Sodio
+    @Rule(Usuario(objetivo="Perder peso"), Comida(sodio=P(lambda sodio: sodio <= 100)))
+    def bajo_sodio_perder_peso(self):
+        self.declare(Fact(puntaje=30))  # Control de sodio es importante para evitar la retención de líquidos
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(sodio=P(lambda sodio: 100 < sodio <= 200)))
+    def moderado_sodio_perder_peso(self):
+        self.declare(Fact(puntaje=10))  # Moderado nivel de sodio es aceptable
+
+    @Rule(Usuario(objetivo="Perder peso"), Comida(sodio=P(lambda sodio: sodio > 200)))
+    def alto_sodio_perder_peso(self):
+        self.declare(Fact(puntaje=-15))  # Penalización por comidas con mucho sodio
+
+    # 8. Reglas basadas en el objetivo: Mantener peso
+    # Calorias
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(calorias=P(lambda calorias: 300 <= calorias <= 400)))
+    def calorias_equilibradas_mantener_peso(self):
+        self.declare(Fact(puntaje=40))  # Buen equilibrio de calorías para mantener el peso
+
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(calorias=P(lambda calorias: 200 <= calorias < 300)))
+    def calorias_bajas_mantener_peso(self):
+        self.declare(Fact(puntaje=30))  # Comidas bajas en calorías aún pueden ser buenas para mantener el peso
+
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(calorias=P(lambda calorias: calorias < 200)))
+    def calorias_muy_bajas_mantener_peso(self):
+        self.declare(Fact(puntaje=10))  # Demasiado pocas calorías podrían no ser ideales
+
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(calorias=P(lambda calorias: calorias > 400)))
+    def calorias_altas_mantener_peso(self):
+        self.declare(Fact(puntaje=-10))  # Penalización por calorías altas que podrían llevar a aumento de peso
+
+    # Proteinas
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(proteinas=P(lambda proteinas: 15 <= proteinas < 20)))
+    def moderada_proteina_mantener_peso(self):
+        self.declare(Fact(puntaje=20))  # Cantidad moderada de proteínas es adecuada para mantener el peso
+
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(proteinas=P(lambda proteinas: proteinas < 15)))
+    def baja_proteina_mantener_peso(self):
+        self.declare(Fact(puntaje=10))  # Proteínas bajas son aceptables pero no ideales para mantener el peso
+
+    # Carbohidratos
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(carbohidratos=P(lambda carbohidratos: 30 <= carbohidratos <= 50)))
+    def moderados_carbohidratos_mantener_peso(self):
+        self.declare(Fact(puntaje=30))  # Un equilibrio moderado de carbohidratos es clave para mantener el peso
+
+    @Rule(Usuario(objetivo="Mantener peso"), Comida(carbohidratos=P(lambda carbohidratos: carbohidratos < 30)))
+    def bajos_carbohidratos_mantener_peso(self):
+        self.declare(Fact(puntaje=10))  # Carbohidratos bajos también funcionan
+
+    # 7. Reglas basadas en el objetivo: Ganar músculo
+    # Calorias
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(calorias=P(lambda calorias: calorias >= 500)))
+    def alta_calorias_ganar_musculo(self):
+        self.declare(Fact(puntaje=50))  # Se necesita un consumo alto de calorías para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(calorias=P(lambda calorias: 400 <= calorias < 500)))
+    def moderada_calorias_ganar_musculo(self):
+        self.declare(Fact(puntaje=30))  # Una cantidad moderada de calorías también es aceptable para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(calorias=P(lambda calorias: 300 <= calorias < 400)))
+    def baja_calorias_ganar_musculo(self):
+        self.declare(Fact(puntaje=10))  # Comidas con pocas calorías no son ideales para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(calorias=P(lambda calorias: calorias < 300)))
+    def muy_baja_calorias_ganar_musculo(self):
+        self.declare(Fact(puntaje=-20))  # Penalización por comidas con muy pocas calorías, no ayudan a ganar músculo
+
+    # Proteinas
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(proteinas=P(lambda proteinas: proteinas >= 25)))
+    def alta_proteina_ganar_musculo(self):
+        self.declare(Fact(puntaje=50))  # Las comidas muy altas en proteínas son esenciales para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(proteinas=P(lambda proteinas: 20 <= proteinas < 25)))
+    def moderada_proteina_ganar_musculo(self):
+        self.declare(Fact(puntaje=30))  # Una cantidad moderada de proteínas sigue siendo buena para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(proteinas=P(lambda proteinas: 15 <= proteinas < 20)))
+    def baja_proteina_ganar_musculo(self):
+        self.declare(Fact(puntaje=10))  # Proteínas bajas no son ideales para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(proteinas=P(lambda proteinas: proteinas < 15)))
+    def muy_baja_proteina_ganar_musculo(self):
+        self.declare(Fact(puntaje=-10))  # Penalización por proteínas insuficientes para ganar músculo
+
+    # Carbohidratos
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(carbohidratos=P(lambda carbohidratos: 40 <= carbohidratos < 60)))
+    def moderado_carbohidratos_ganar_musculo(self):
+        self.declare(Fact(puntaje=30))  # Una cantidad moderada de carbohidratos ayuda en el proceso de ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(carbohidratos=P(lambda carbohidratos: 60 <= carbohidratos < 80)))
+    def alto_carbohidratos_ganar_musculo(self):
+        self.declare(Fact(puntaje=40))  # Una cantidad alta de carbohidratos apoya el crecimiento muscular
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(carbohidratos=P(lambda carbohidratos: carbohidratos >= 80)))
+    def muy_alto_carbohidratos_ganar_musculo(self):
+        self.declare(Fact(puntaje=50))  # Una cantidad muy alta de carbohidratos es ideal para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(carbohidratos=P(lambda carbohidratos: carbohidratos < 40)))
+    def bajo_carbohidratos_ganar_musculo(self):
+        self.declare(Fact(puntaje=10))  # Comidas bajas en carbohidratos no son óptimas para ganar músculo
+
+    # Sodio
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(sodio=P(lambda sodio: sodio <= 100)))
+    def bajo_sodio_ganar_musculo(self):
+        self.declare(Fact(puntaje=30))  # Es bueno mantener el sodio bajo mientras se gana músculo para evitar retención
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(sodio=P(lambda sodio: 100 < sodio <= 200)))
+    def moderado_sodio_ganar_musculo(self):
+        self.declare(Fact(puntaje=10))  # Moderado nivel de sodio es aceptable para ganar músculo
+
+    @Rule(Usuario(objetivo="Ganar músculo"), Comida(sodio=P(lambda sodio: sodio > 200)))
+    def alto_sodio_ganar_musculo(self):
+        self.declare(Fact(puntaje=-20))  # Penalización por comidas con alto contenido de sodio, no ideal para ganar músculo
