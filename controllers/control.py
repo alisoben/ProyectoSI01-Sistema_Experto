@@ -3,7 +3,7 @@ from models import *
 from flask import render_template, request, jsonify
 import json  # Asegúrate de importar json
 
-@app.route("/index")
+@app.route("/")
 def index():
     return render_template("bienvenida.html")
 
