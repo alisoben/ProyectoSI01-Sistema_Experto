@@ -1,4 +1,0 @@
-# Ignorar archivos y carpetas generados
-__pycache__/
-*.pyc
-*.pyo
