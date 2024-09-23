@@ -5,171 +5,118 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Times New Roman', serif; /* Default font */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* Default font */
+    font-size: 20px;
+    color: white;
 }
 
 body {
     height: 100vh;
     background: url('./images/welcome_background.jpg') no-repeat center center/cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
 
-form {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-    width: 85%;
-    max-width: 600px;
-    margin: auto;
-    position: relative;
-    left: -200px; /* Ajusta esto según necesites para mover el formulario un poco a la izquierda */
-}
-
-label {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 8px;
-    display: block;
-}
-
-input[type="text"], input[type="number"], select {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-}
-
-.restricciones, .medical-conditions {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-}
-
-.btn, .btn-submit {
-    padding: 6px 12px;
-    margin: 5px;
-    border: none;
-    border-radius: 20px;
-    background-color: #ff6347;
-    color: white;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-.btn:hover, .btn-submit:hover {
-    background-color: #ff4500;
-}
-
-.btn.selected {
-    background-color: #9ed269;
-    color: white;
-    font-weight: bold;
-}
-
-.selected {
-    background-color: #4CAF50; /* Verde para indicar que está seleccionado */
-    color: white;
-}
-
-
-.btn-submit {
-    background-color: #32cd32;
-    padding: 8px 20px;
-}
-
-.btn-submit:hover {
-    background-color: #228b22;
+.panel-izquierdo {
+    width: 61%;
+    padding: 18px; /* Reducir ligeramente el padding */
 }
 
 h1 {
     font-family: 'Lato', sans-serif;
-    font-size: 2.8rem;
+    font-size: 2.6rem; /* Reducir ligeramente el tamaño de la fuente */
     color: white;
-    margin-bottom: 25px;
-    position: relative; /* Agrega posición relativa para ajustar con left */
-    left: 100px; /* Mueve un poco a la derecha para centrar visualmente */
+    margin-bottom: 23px; /* Reducir margen inferior */
+    text-align: center;
     text-shadow: 2px 2px 8px #000;
 }
 
-.btn-back {
-    background-color: #ff6347; /* Color de fondo rojo-naranja */
-    color: white; /* Color de texto blanco */
-    padding: 10px 20px; /* Ajuste del relleno para hacerlo más grueso */
-    border-radius: 20px; /* Bordes redondeados para simular el botón de la imagen */
-    text-decoration: none; /* Sin subrayado en el texto */
-    font-size: 0.9rem; /* Tamaño de la fuente */
-    font-weight: bold; /* Negrita para el texto */
-    font-family: 'Lato', sans-serif; /* Fuente Lato que parece ser la misma de 'Obtener recomendaciones' */
-    position: fixed;
-    bottom: 20px;
-    left: 20px; /* Ajuste para posicionar correctamente */
-    cursor: pointer; /* Cursor en forma de puntero para indicar que es clickeable */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra ligera para profundidad */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4); /* Sombra de texto para efecto 3D */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves al cambiar color y sombra */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    grid-template-rows: repeat(3, auto); /* 3 filas */
+    gap: 9px; /* Reducir ligeramente el espacio entre los elementos */
+    padding: 13px; /* Reducir ligeramente el padding general */
 }
 
-.btn-back:hover {
-    background-color: #e55347; /* Color al pasar el ratón por encima */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5); /* Sombra más prominente al pasar el cursor */
+.grid-item {
+    padding: 9px; /* Reducir espaciado interno */
 }
 
-.gender-options-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column; /* Cambio a disposición vertical */
-    align-items: center; /* Alineación centrada */
-    margin-bottom: 15px;
+/* Cambia solo el color del texto que se ingresa en los inputs */
+input[type="number"], select {
+    color: black; /* El texto que escribes será negro */
+    background-color: white; /* Fondo blanco en los campos de entrada */
+    border: 1px solid #ccc; /* Opcional: añade un borde gris claro */
+    padding: 9px; /* Reducir ligeramente el padding */
 }
 
-.gender-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* Espacio entre los botones de opción */
+/* Cambia el color del texto en las opciones del select */
+select option {
+    color: black; /* El texto de las opciones en el desplegable será negro */
+    background-color: white; /* Asegura que el fondo de las opciones sea blanco */
 }
 
-.gender-options-container label {
-    margin: 0;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
+/* El color de los labels permanece en blanco */
+label {
+    color: white;
 }
 
-.gender-options-container input[type="radio"] {
-    margin-right: 5px; /* Espacio entre el botón y el texto */
+.padding-multiple-button {
+    padding: 18px; /* Reducir ligeramente el padding */
 }
 
-label[for="gender"] {
-    font-size: 16px; /* Aumento del tamaño de fuente para 'Género' */
-    color: #333;
-    display: block;
-    text-align: center; /* Centrar el texto si es necesario */
-    margin-bottom: 10px; /* Espacio debajo de la etiqueta para separarla de las opciones */
+multiple-button-group {
+    padding: 18px; /* Reducir ligeramente el padding */
 }
 
-.resultado-comidas {
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con 90% de opacidad */
-    padding: 20px; /* Espacio interior */
+.multiple-button {
+    padding: 18px; /* Reducir ligeramente el padding */
+}
+
+.multiple-button button {
+    background-color: white; /* Color de fondo blanco */
+    color: black; /* Color de texto negro */
+    border-radius: 18px; /* Bordes redondeados */
+    border: 1px solid black; /* Bordes negros (opcional) */
+    padding: 6px 9px; /* Reducir ligeramente el espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    height: 46px; /* Reducir ligeramente la altura de los botones */
+}
+
+/* Estilos para los botones seleccionados */
+.multiple-button button.selected {
+    background-color: rgb(169, 196, 102); /* Cambia el fondo a verde claro cuando está seleccionado */
+    color: black; /* El texto cambia a negro cuando está seleccionado */
+    border: 1px solid rgb(169, 196, 102); /* Borde del mismo color del fondo */
+}
+
+.botones {
+    display: flex; /* Usa flexbox */
+    justify-content: space-between; /* Espacio entre los botones */
+    align-items: flex-end; /* Alinea los botones en la parte inferior */
+    padding: 18px; /* Reducir ligeramente el padding */
+}
+
+.btn-submit, .btn-back {
+    background-color: #e76f51; /* Fondo naranja */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
     border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin-top: 30px; /* Separación respecto a la parte superior */
-    width: 90%; /* Ajustar el ancho */
-    max-width: 800px; /* Tamaño máximo */
-    margin-left: 20%; /* Ajustar pa la derecha */
-    text-align: left; /* Alineación del contenido dentro del marco */
+    padding: 14px 28px; /* Reducir ligeramente el espaciado interno */
+    font-size: 1.2rem; /* Tamaño de fuente grande */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    text-decoration: none; /* Sin subrayado para el enlace */
+    text-align: center; /* Centra el texto en el botón */
 }
 
-.resultado-comidas h2 {
-    color: #333; /* Color de los encabezados */
-    margin-bottom: 10px; /* Separación entre el título y el texto */
+.btn-back {
+    display: inline-block; /* Para que se comporte como un botón */
 }
 
-.resultado-comidas p {
-    margin-bottom: 15px; /* Espacio entre cada comida recomendada */
-    font-size: 1.1rem; /* Tamaño de fuente un poco mayor para el contenido */
+.botones {
+    display: flex; /* Usa flexbox */
+    justify-content: space-between; /* Espacio entre los botones */
+    align-items: flex-end; /* Alinea los botones en la parte inferior */
+    padding: 18px; /* Reducir ligeramente el padding */
+    position: relative; /* Para posicionar dentro de un contenedor */
+    bottom: 0; /* Alinea al fondo */
 }
