@@ -4,38 +4,6 @@ from flask import render_template, request, jsonify
 import json
 import os
 
-# Función para combinar archivos y generar reglas_cargadas.py usando rutas relativas
-def generar_archivo_combinado():
-    # Ruta del archivo reglas.txt (ruta relativa)
-    ruta_txt = os.path.join('models', 'reglas', 'reglas.txt')
-    # Ruta del archivo reglas_expertas.py (ruta relativa)
-    ruta_reglas_expertas = os.path.join('models', 'reglas_expertas.py')
-    # Nueva ruta para el archivo reglas_cargadas.py (ruta relativa)
-    ruta_reglas_cargadas = os.path.join('models', 'reglas', 'reglas_cargadas.py')
-
-    # Verificar si el archivo ya existe para evitar duplicados
-    if os.path.exists(ruta_reglas_cargadas):
-        print(f"El archivo {ruta_reglas_cargadas} ya existe. No se hará nada.")
-        return ruta_reglas_cargadas
-
-    # Leer el contenido del archivo reglas_expertas.py
-    with open(ruta_reglas_expertas, 'r', encoding='utf-8') as f_expertas:
-        contenido_expertas = f_expertas.read()
-
-    # Leer el contenido del archivo reglas.txt
-    with open(ruta_txt, 'r', encoding='utf-8') as f_txt:
-        contenido_txt = f_txt.read()
-
-    # Combinar el contenido de reglas_expertas.py con el contenido de reglas.txt
-    contenido_combinado = f"{contenido_expertas}\n    {contenido_txt}"
-
-    # Escribir el contenido combinado en el nuevo archivo reglas_cargadas.py
-    with open(ruta_reglas_cargadas, 'w', encoding='utf-8') as f_cargadas:
-        f_cargadas.write(contenido_combinado)
-
-    print(f"Archivo {ruta_reglas_cargadas} generado correctamente.")
-    return ruta_reglas_cargadas
-
 @app.route("/")
 def index():
     return render_template("bienvenida.html")
@@ -43,25 +11,32 @@ def index():
 @app.route("/recomendaciones", methods=['GET', 'POST'])
 def recomendaciones():
     if request.method == 'POST':
-        # Generar el archivo combinado antes de continuar
-        ruta_reglas_cargadas = generar_archivo_combinado()
-
         # Obtener los datos enviados por el formulario
         edad = request.form.get('edad')
         peso = request.form.get('peso')
         altura = request.form.get('altura')
         genero = request.form.get('gender')
         objetivo = request.form.get('objetivo')
+        actividad_fisica = int(request.form.get('actividad_fisica'))  # Ahora como 0 o 1
 
-        # Obtener las restricciones y condiciones como cadenas y dividirlas en listas
-        restricciones_str = request.form.get('preferencias')
-        condiciones_str = request.form.get('condiciones')
+        # Obtener los valores binarios para preferencias y condiciones
+        preferencias_bin = request.form.get('preferencias', '0000')
+        condiciones_bin = request.form.get('condiciones', '0000')
 
-        # Dividir las cadenas en listas si no están vacías
-        restricciones = restricciones_str.split(',') if restricciones_str else []
-        condiciones = condiciones_str.split(',') if condiciones_str else []
+        # Mapeo de las preferencias y condiciones con los valores binarios
+        preferencias = {
+            "vegetariano": int(preferencias_bin[0]),
+            "sin_lactosa": int(preferencias_bin[1]),
+            "sin_gluten": int(preferencias_bin[2]),
+            "bajo_carbohidratos": int(preferencias_bin[3])
+        }
 
-        actividad_fisica = request.form.get('actividad_fisica')  # Nuevo campo
+        condiciones_medicas = {
+            "diabetes": int(condiciones_bin[0]),
+            "hipertension": int(condiciones_bin[1]),
+            "colesterol": int(condiciones_bin[2]),
+            "anemia": int(condiciones_bin[3])
+        }
 
         # Crear el diccionario del usuario
         usuario = {
@@ -70,15 +45,13 @@ def recomendaciones():
             "altura": float(altura) / 100,  # Convertir de cm a metros
             "genero": genero,
             "objetivo": objetivo,
-            "preferencias": restricciones,  # Usar la lista de restricciones
-            "condiciones_medicas": condiciones,  # Usar la lista de condiciones
-            "actividad_fisica": actividad_fisica  # Nuevo campo añadido
+            "actividad_fisica": actividad_fisica,  # Guardado como 0 (Baja) o 1 (Alta)
+            "preferencias": preferencias,
+            "condiciones_medicas": condiciones_medicas
         }
 
-        # Convertir el diccionario de usuario a formato JSON
+        # Convertir el diccionario de usuario a formato JSON para depuración
         usuario_json = json.dumps(usuario, indent=4)
-
-        # Imprimir el JSON del usuario para depuración
         print("Datos del usuario en formato JSON:")
         print(usuario_json)
 
@@ -86,16 +59,29 @@ def recomendaciones():
         from knowledge.base_conocimiento import comidas
         from models.motor_experta import motor_inferencia
 
-        # Pasamos la ruta del archivo combinado al motor de inferencia
-        recomendaciones_dieta = motor_inferencia(usuario, comidas, ruta_reglas_cargadas)
+        # Ruta de los archivos
+        ruta_reglas_txt = os.path.join('models', 'reglas', 'reglas.txt')
+        # Ruta de los archivos
+        ruta_base_conocimiento = os.path.join('knowledge', 'base_conocimiento.txt')
 
-        # Convertir las recomendaciones a formato JSON para imprimirlas también
-        recomendaciones_json = json.dumps(recomendaciones_dieta, indent=4)
-        print("Recomendaciones generadas en formato JSON:")
-        print(recomendaciones_json)
 
-        # Renderizar el template con las recomendaciones
-        return render_template('resultado.html', recomendaciones=recomendaciones_dieta)
+        recomendaciones_dieta = motor_inferencia(usuario, ruta_reglas_txt, ruta_base_conocimiento)
+
+        # Desglosar las recomendaciones obtenidas (suponiendo que están en formato texto separado por saltos de línea)
+        if "recomendaciones" in recomendaciones_dieta:
+            comidas = recomendaciones_dieta["recomendaciones"].split('\n')
+
+            # Extraer las comidas en base a su sección (Desayuno, Almuerzo, Cena)
+            desayuno = next((line for line in comidas if line.startswith("Desayuno:")), "No disponible")
+            almuerzo = next((line for line in comidas if line.startswith("Almuerzo:")), "No disponible")
+            cena = next((line for line in comidas if line.startswith("Cena:")), "No disponible")
+
+            # Pasar las comidas al template
+            return render_template('resultado.html', recomendaciones={
+                'desayuno': desayuno,
+                'almuerzo': almuerzo,
+                'cena': cena
+            })
 
     return render_template("recomendacion.html")
 

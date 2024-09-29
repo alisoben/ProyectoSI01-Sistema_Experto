@@ -9,7 +9,7 @@
 <body>
     <div class="panel-izquierdo">
         <div>
-            <h1>Indícanos tus datos y lo que deseas</h1>
+            <h1>Indícanos tus datos y preferencias</h1>
         </div>
         
         <form method="POST" action="/recomendaciones">
@@ -19,96 +19,86 @@
                     <label for="edad">Edad:</label>
                     <input type="number" id="edad" name="edad" required>
                 </div>
-                <!-- Género -->
-                <div class="gender-options-container grid-item">
-                    <div class="gender-group">
-                        <label for="gender">Género:</label>
-                        <label for="male">
-                            <input type="radio" id="male" name="gender" value="M" required> Hombre
-                        </label>
-                        <label for="female">
-                            <input type="radio" id="female" name="gender" value="F" required> Mujer
-                        </label>
-                    </div>
-                </div>
 
                 <div class="grid-item">
                     <label for="peso">Peso (kg):</label>
                     <input type="number" id="peso" name="peso" required>
                 </div>
 
-                <!-- Selecciona tu objetivo -->
-                <div class="grid-item">
-                    <label for="objetivo">Selecciona tu objetivo:</label>
-                    <select id="objetivo" name="objetivo" required>
-                        <option value="" disabled selected> </option> <!-- Opción en blanco por defecto -->
-                        <option value="Perder peso">Perder peso</option>
-                        <option value="Ganar músculo">Ganar músculo</option>
-                        <option value="Mantener peso">Mantener peso</option>
-                    </select>
-                </div>
-                
                 <div class="grid-item">
                     <label for="altura">Altura (cm):</label>
                     <input type="number" id="altura" name="altura" required>
                 </div>
-            
+
+                <!-- Género -->
+                <div class="grid-item">
+                    <label for="gender">Género:</label>
+                    <label for="male">
+                        <input type="radio" id="male" name="gender" value="M" required> Hombre
+                    </label>
+                    <label for="female">
+                        <input type="radio" id="female" name="gender" value="F" required> Mujer
+                    </label>
+                </div>
+
+                <!-- Selecciona tu objetivo -->
+                <div class="grid-item">
+                    <label for="objetivo">Selecciona tu objetivo:</label>
+                    <select id="objetivo" name="objetivo" required>
+                        <option value="" disabled selected> </option>
+                        <option value="bajar_peso">Bajar de peso</option>
+                        <option value="ganar_musculo">Desarrollo muscular</option>
+                        <option value="vida_saludable">Vida saludable</option>
+                    </select>
+                </div>
+
                 <!-- Nivel de actividad física -->
                 <div class="grid-item">
                     <label for="actividad_fisica">Nivel de actividad física:</label>
                     <select id="actividad_fisica" name="actividad_fisica" required>
                         <option value="" disabled selected> </option>
-                        <option value="bajo">Bajo</option>
-                        <option value="moderado">Moderado</option>
-                        <option value="alto">Alto</option>
+                        <option value="0">Baja</option>
+                        <option value="1">Alta</option>
                     </select>
                 </div>
             </div>
-            <div class="multiple-button-group">
-                <label class="padding-multiple-button">Elige tus condiciones medicas (selecciona varias si lo deseas)</label>
-                <div class="medical-conditions multiple-button">
-                    <button type="button" data-group="condiciones" data-value="diabetes">Diabetes</button>
-                    <button type="button" data-group="condiciones" data-value="enfermedad Celiaca">Enfermedad Celiaca</button>
-                    <button type="button" data-group="condiciones" data-value="hipertensión">Hipertensión</button>
-                    <button type="button" data-group="condiciones" data-value="colesterol alto">Colesterol alto</button>
-                    <button type="button" data-group="condiciones" data-value="anemia">Anemia</button>
-                    <button type="button" data-group="condiciones" data-value="hipotiroidismo">Hipotiroidismo</button>
-                    <button type="button" data-group="condiciones" data-value="intolerancia a la lactosa">Intolerancia a la lactosa</button>
-                    <button type="button" data-group="condiciones" data-value="insuficiencia Renal">Insuficiencia Renal</button>
-                    <button type="button" data-group="condiciones" data-value="alergia a los frutos secos">Alergia a los frutos secos</button>
-                    <button type="button" data-group="condiciones" data-value="obesidad">Obesidad</button>
-                </div>
-            </div>
 
-            <!-- Inputs ocultos para condiciones médicas -->
-            <input type="hidden" name="condiciones" id="condiciones" value="">
-        
-            <!-- Elegir preferencias alimenticias -->
+            <!-- Preferencias alimenticias -->
             <div class="multiple-options multiple-button-group">
                 <label class="padding-multiple-button">Elige tus preferencias alimenticias (selecciona varias si lo deseas):</label>
                 <div class="preferencias multiple-button">
-                    <button type="button" data-group="preferencias" data-value="vegetariano">Vegetariano</button>
-                    <button type="button" data-group="preferencias" data-value="vegano">Vegano</button>
-                    <button type="button" data-group="preferencias" data-value="sin gluten">Sin gluten</button>
-                    <button type="button" data-group="preferencias" data-value="bajo en carbohidratos">Bajo en carbohidratos</button>
-                    <button type="button" data-group="preferencias" data-value="dieta andina">Dieta andina</button>
-                    <button type="button" data-group="preferencias" data-value="dieta amazónica">Dieta amazónica</button>
-                    <button type="button" data-group="preferencias" data-value="dieta criolla">Dieta criolla</button>
-                    <button type="button" data-group="preferencias" data-value="sin lactosa">Sin lactosa</button>
-                    <button type="button" data-group="preferencias" data-value="bajo en sodio">Bajo en sodio</button>
-                    <button type="button" data-group="preferencias" data-value="orgánico">Orgánico</button>
+                    <button type="button" data-group="preferencias" data-index="0">Vegetariano</button>
+                    <button type="button" data-group="preferencias" data-index="1">Sin lactosa</button>
+                    <button type="button" data-group="preferencias" data-index="2">Sin gluten</button>
+                    <button type="button" data-group="preferencias" data-index="3">Bajo en carbohidratos</button>
                 </div>
             </div>
 
             <!-- Inputs ocultos para preferencias alimenticias -->
-            <input type="hidden" name="preferencias" id="preferencias" value="">
+            <input type="hidden" name="preferencias" id="preferencias" value="0000">
+
+            <!-- Condiciones médicas -->
+            <div class="multiple-button-group">
+                <label class="padding-multiple-button">Elige tus condiciones médicas (selecciona varias si lo deseas):</label>
+                <div class="medical-conditions multiple-button">
+                    <button type="button" data-group="condiciones" data-index="0">Diabetes</button>
+                    <button type="button" data-group="condiciones" data-index="1">Hipertensión</button>
+                    <button type="button" data-group="condiciones" data-index="2">Colesterol alto</button>
+                    <button type="button" data-group="condiciones" data-index="3">Anemia</button>
+                </div>
+            </div>
+
+            <!-- Inputs ocultos para condiciones médicas -->
+            <input type="hidden" name="condiciones" id="condiciones" value="0000">
 
             <div class="botones">
                 <a href="/" class="btn-back">Volver al Inicio</a>
                 <button type="submit" class="btn-submit">Obtener Recomendaciones</button>
             </div>
         </form>
+
+        <!-- Script para manejar la selección múltiple -->
         <script src="../static/script.js"></script>
     </div>
-
 </body>
+</html>

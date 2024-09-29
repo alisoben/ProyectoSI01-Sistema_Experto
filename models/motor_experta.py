@@ -1,109 +1,82 @@
-from experta import *
-import random  # Para seleccionar aleatoriamente en caso de empate
 import os
 
-# Función para puntuar una comida basada en el motor de inferencia
-def puntuar_comida(comida, usuario, ruta_reglas_cargadas):
-    # Cargar las reglas desde el archivo combinado
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("reglas_cargadas", ruta_reglas_cargadas)
-    reglas = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(reglas)
+# Función para cargar las reglas desde el archivo reglas.txt
+def cargar_reglas_desde_txt(ruta_reglas_txt):
+    reglas = {}
+    with open(ruta_reglas_txt, 'r', encoding='utf-8') as archivo:
+        for linea in archivo:
+            # Separar la regla binaria de la dieta asociada
+            regla, dieta = linea.strip().split('->')
+            regla = regla.replace(';', '').replace('A=', '').replace('G=', '').replace('O1=', '').replace('O2=', '').replace('O3=', '').replace('C1=', '').replace('C2=', '').replace('C3=', '').replace('C4=', '').replace('P1=', '').replace('P2=', '').replace('P3=', '').replace('P4=', '')
+            reglas[regla] = dieta
+    return reglas
 
-    # Crea el motor de inferencia basado en las reglas cargadas
-    engine = reglas.SistemaRecomendacion()
+# Función para cargar la base de conocimiento
+def cargar_base_conocimiento(ruta_base_conocimiento):
+    base_conocimiento = {}
+    with open(ruta_base_conocimiento, 'r', encoding='utf-8') as archivo:
+        contenido = archivo.read()
+        secciones = contenido.split("[")
+        for seccion in secciones:
+            if seccion.strip():
+                nombre_dieta, detalles = seccion.split("]", 1)
+                base_conocimiento[nombre_dieta.strip()] = detalles.strip()
+    return base_conocimiento
 
-    # Calcula el IMC del usuario
-    imc = usuario["peso"] / (usuario["altura"] ** 2)
+# Función para convertir las preferencias del usuario en una cadena binaria
+def convertir_usuario_a_binario(usuario):
+    # Obtener los valores de las preferencias y condiciones médicas
+    actividad = str(usuario["actividad_fisica"])  # 0 o 1
+    genero = '1' if usuario["genero"] == 'M' else '0'  # 1 para hombre, 0 para mujer
 
-    # Inicializa el motor y pasa los hechos del Usuario
-    engine.reset()  # Resetea las reglas
-    engine.declare(reglas.Usuario(
-        imc=imc,
-        genero=usuario["genero"],
-        edad=usuario["edad"],
-        actividad_fisica=usuario["actividad_fisica"],
-        condiciones_medicas=usuario.get("condiciones_medicas", []),
-        preferencias=usuario.get("preferencias", []),
-        objetivo=usuario["objetivo"]
-    ))
+    # Objetivos: O1 (bajar de peso), O2 (desarrollo muscular), O3 (vida saludable)
+    o1 = '1' if usuario["objetivo"] == "bajar_peso" else '0'
+    o2 = '1' if usuario["objetivo"] == "ganar_musculo" else '0'
+    o3 = '1' if usuario["objetivo"] == "vida_saludable" else '0'
 
-    # Inicializa los hechos de Comida
-    engine.declare(reglas.Comida(
-        calorias=comida.get("calorias", 0),
-        proteinas=comida.get("proteinas", 0),
-        sodio=comida.get("sodio", 0),
-        carbohidratos=comida.get("carbohidratos", 0),
-        categorias=comida.get("categorias", [])
-    ))
+    # Preferencias alimenticias: P1 (vegetariano), P2 (sin lactosa), P3 (sin gluten), P4 (bajo en carbohidratos)
+    p1 = str(usuario["preferencias"]["vegetariano"])
+    p2 = str(usuario["preferencias"]["sin_lactosa"])
+    p3 = str(usuario["preferencias"]["sin_gluten"])
+    p4 = str(usuario["preferencias"]["bajo_carbohidratos"])
 
-    # Ejecuta el motor de inferencia
-    engine.run()
+    # Condiciones médicas: C1 (diabetes), C2 (hipertensión), C3 (colesterol), C4 (anemia)
+    c1 = str(usuario["condiciones_medicas"]["diabetes"])
+    c2 = str(usuario["condiciones_medicas"]["hipertension"])
+    c3 = str(usuario["condiciones_medicas"]["colesterol"])
+    c4 = str(usuario["condiciones_medicas"]["anemia"])
 
-    # Aquí obtendríamos el puntaje acumulado
-    puntaje = sum(fact['puntaje'] for fact in engine.facts.values() if 'puntaje' in fact)
+    # Unir todos los valores en la cadena binaria final en el orden correcto
+    usuario_binario = f"{actividad}{genero}{o1}{o2}{o3}{p1}{p2}{p3}{p4}{c1}{c2}{c3}{c4}"
+    return usuario_binario
 
-    # Imprimir en consola el nombre de la comida y su puntaje
-    print(f"Comida: {comida['nombre']}, Puntaje: {puntaje}")
-
-    return puntaje
-
-# Función para aplicar reglas a las comidas
-def aplicar_reglas(comidas, tipo, usuario, ruta_reglas_cargadas, num_comidas=3):
-    # Filtrar las comidas por el tipo (desayuno, almuerzo, cena, snack)
-    comidas_filtradas = [comida for comida in comidas if comida["tipo"] == tipo]
-
-    # Asegurarse de que hay comidas disponibles después de filtrar
-    if not comidas_filtradas:
-        print(f"No hay comidas disponibles para el tipo {tipo}.")
-        return None, []
-
-    # Puntuamos cada comida
-    comidas_puntuadas = [(comida, puntuar_comida(comida, usuario, ruta_reglas_cargadas)) for comida in comidas_filtradas]
-
-    # Ordenamos las comidas por su puntaje de mayor a menor
-    comidas_ordenadas = sorted(comidas_puntuadas, key=lambda x: x[1], reverse=True)
-
-    # Seleccionamos las tres comidas con mayor puntaje
-    mejores_comidas = comidas_ordenadas[:num_comidas]
-
-    # Obtener el puntaje más alto
-    max_puntaje = mejores_comidas[0][1]  # Puntaje más alto entre las mejores comidas
-
-    # Filtramos todas las comidas que tienen el puntaje máximo
-    comidas_empate = [comida for comida, puntaje in comidas_ordenadas if puntaje == max_puntaje]
-
-    # Imprimir todas las comidas que tienen el mismo puntaje en consola
-    print(f"\nComidas con puntaje máximo de {max_puntaje} para {tipo.capitalize()}:")
-    for idx, comida in enumerate(comidas_empate, start=1):
-        print(f"{idx}. {comida['nombre']} - Puntaje: {max_puntaje}")
-
-    # Reordenamos aleatoriamente la lista de comidas con el mismo puntaje
-    random.shuffle(comidas_empate)
-    print(f"\nComidas reordenadas aleatoriamente con el mismo puntaje para {tipo.capitalize()}:")
-    for idx, comida in enumerate(comidas_empate, start=1):
-        print(f"{idx}. {comida['nombre']}")
-
-    print("\n")
-    # Devolvemos las comidas reordenadas
-    return comidas_empate
-
-# Motor de inferencia híbrido: encadenamiento hacia atrás con puntuación heurística
-def motor_inferencia(usuario, comidas, ruta_reglas_cargadas):
+# Motor de inferencia: toma al usuario y retorna las recomendaciones
+def motor_inferencia(usuario, ruta_reglas_txt, ruta_base_conocimiento):
     print("Iniciando motor de inferencia con usuario:", usuario)
 
-    # Obtenemos las mejores comidas por cada tipo y las mostramos por consola
-    desayuno = aplicar_reglas(comidas, "desayuno", usuario, ruta_reglas_cargadas)
-    almuerzo = aplicar_reglas(comidas, "almuerzo", usuario, ruta_reglas_cargadas)
-    cena = aplicar_reglas(comidas, "cena", usuario, ruta_reglas_cargadas)
-    snack = aplicar_reglas(comidas, "snack", usuario, ruta_reglas_cargadas)
+    # Convertir usuario a cadena binaria
+    usuario_binario = convertir_usuario_a_binario(usuario)
+    print(f"Usuario en binario: {usuario_binario}")
 
-    # Si no hay recomendaciones, devolvemos un valor predeterminado
-    dieta_detallada = {
-        "desayuno": desayuno or {"nombre": "No hay recomendación de desayuno"},
-        "almuerzo": almuerzo or {"nombre": "No hay recomendación de almuerzo"},
-        "cena": cena or {"nombre": "No hay recomendación de cena"},
-        "snack": snack or {"nombre": "No hay recomendación de snack"}
+    # Cargar las reglas desde el archivo txt
+    reglas = cargar_reglas_desde_txt(ruta_reglas_txt)
+
+    # Buscar si existe una coincidencia exacta en las reglas
+    dieta_encontrada = reglas.get(usuario_binario)
+
+    if not dieta_encontrada:
+        return {"mensaje": "No se encontraron recomendaciones para el usuario."}
+
+    print(f"Dieta encontrada: {dieta_encontrada}")
+
+    # Cargar la base de conocimiento y obtener la dieta
+    base_conocimiento = cargar_base_conocimiento(ruta_base_conocimiento)
+    recomendaciones = base_conocimiento.get(dieta_encontrada, "No se encontró información en la base de conocimiento.")
+
+    # Imprimir las comidas en la terminal
+    print("\nComidas recomendadas:\n")
+    print(recomendaciones)
+
+    return {
+        "recomendaciones": recomendaciones
     }
-
-    return dieta_detallada

@@ -1,38 +1,41 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const restricciones = [];
-    const condiciones = [];
-
+    // Manejar la selección de preferencias alimenticias
     document.querySelectorAll("button[data-group='preferencias']").forEach(function(button) {
         button.addEventListener("click", function() {
-            const valor = button.getAttribute("data-value");
-            const index = restricciones.indexOf(valor);
-            
-            if (index === -1) {
-                restricciones.push(valor);
+            const index = button.getAttribute("data-index");
+            let preferencias = document.getElementById("preferencias").value.split('');
+
+            // Alternar entre 0 y 1 al hacer clic
+            if (preferencias[index] === '0') {
+                preferencias[index] = '1';
                 button.classList.add("selected");
-            } else if (index !== -1) {
-                restricciones.splice(index, 1);
+            } else {
+                preferencias[index] = '0';
                 button.classList.remove("selected");
             }
 
-            document.getElementById("preferencias").value = restricciones.join(",");
+            // Actualizar el valor del campo oculto
+            document.getElementById("preferencias").value = preferencias.join('');
         });
     });
 
+    // Manejar la selección de condiciones médicas
     document.querySelectorAll("button[data-group='condiciones']").forEach(function(button) {
         button.addEventListener("click", function() {
-            const valor = button.getAttribute("data-value");
-            const index = condiciones.indexOf(valor);
+            const index = button.getAttribute("data-index");
+            let condiciones = document.getElementById("condiciones").value.split('');
 
-            if (index === -1) {
-                condiciones.push(valor);
+            // Alternar entre 0 y 1 al hacer clic
+            if (condiciones[index] === '0') {
+                condiciones[index] = '1';
                 button.classList.add("selected");
-            } else if (index !== -1) {
-                condiciones.splice(index, 1);
+            } else {
+                condiciones[index] = '0';
                 button.classList.remove("selected");
             }
 
-            document.getElementById("condiciones").value = condiciones.join(",");
+            // Actualizar el valor del campo oculto
+            document.getElementById("condiciones").value = condiciones.join('');
         });
     });
 });
