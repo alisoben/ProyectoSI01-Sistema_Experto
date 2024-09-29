@@ -47,7 +47,7 @@ def convertir_usuario_a_binario(usuario):
     c4 = str(usuario["condiciones_medicas"]["anemia"])
 
     # Unir todos los valores en la cadena binaria final en el orden correcto
-    usuario_binario = f"{actividad}{genero}{o1}{o2}{o3}{p1}{p2}{p3}{p4}{c1}{c2}{c3}{c4}"
+    usuario_binario = f"{actividad}{genero}{o1}{o2}{o3}{c1}{c2}{c3}{c4}{p1}{p2}{p3}{p4}"
     return usuario_binario
 
 # Motor de inferencia: toma al usuario y retorna las recomendaciones
@@ -64,13 +64,17 @@ def motor_inferencia(usuario, ruta_reglas_txt, ruta_base_conocimiento):
     # Buscar si existe una coincidencia exacta en las reglas
     dieta_encontrada = reglas.get(usuario_binario)
 
+    # Cargar la base de conocimiento
+    base_conocimiento = cargar_base_conocimiento(ruta_base_conocimiento)
+
+    # Si no se encuentra la dieta, usar la dieta [Extra]
     if not dieta_encontrada:
-        return {"mensaje": "No se encontraron recomendaciones para el usuario."}
+        print("No se encontró una dieta exacta, usando la dieta [Extra].")
+        dieta_encontrada = "Extra"
 
     print(f"Dieta encontrada: {dieta_encontrada}")
 
-    # Cargar la base de conocimiento y obtener la dieta
-    base_conocimiento = cargar_base_conocimiento(ruta_base_conocimiento)
+    # Obtener la dieta desde la base de conocimiento
     recomendaciones = base_conocimiento.get(dieta_encontrada, "No se encontró información en la base de conocimiento.")
 
     # Imprimir las comidas en la terminal
