@@ -14,7 +14,7 @@ def recomendaciones():
         # Obtener los datos enviados por el formulario
         genero = request.form.get('gender')
         objetivo = request.form.get('objetivo')
-        actividad_fisica = int(request.form.get('actividad_fisica'))  # Ahora como 0 o 1
+        actividad_fisica = int(request.form.get('actividad_fisica'))
 
         # Obtener los valores binarios para preferencias y condiciones
         preferencias_bin = request.form.get('preferencias', '0000')
@@ -44,7 +44,6 @@ def recomendaciones():
             "condiciones_medicas": condiciones_medicas
         }
 
-        # Convertir el diccionario de usuario a formato JSON para depuración
         usuario_json = json.dumps(usuario, indent=4)
         print("Datos del usuario en formato JSON:")
         print(usuario_json)
@@ -52,9 +51,7 @@ def recomendaciones():
         # Obtener recomendaciones usando el motor de inferencia
         from models.motor_experta import motor_inferencia
 
-        # Ruta de los archivos
         ruta_reglas_txt = os.path.join('models', 'reglas.txt')
-        # Ruta de los archivos
         ruta_base_conocimiento = os.path.join('knowledge', 'base_conocimiento.txt')
 
 
