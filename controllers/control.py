@@ -12,9 +12,6 @@ def index():
 def recomendaciones():
     if request.method == 'POST':
         # Obtener los datos enviados por el formulario
-        edad = request.form.get('edad')
-        peso = request.form.get('peso')
-        altura = request.form.get('altura')
         genero = request.form.get('gender')
         objetivo = request.form.get('objetivo')
         actividad_fisica = int(request.form.get('actividad_fisica'))  # Ahora como 0 o 1
@@ -40,9 +37,6 @@ def recomendaciones():
 
         # Crear el diccionario del usuario
         usuario = {
-            "edad": int(edad),
-            "peso": float(peso),
-            "altura": float(altura) / 100,  # Convertir de cm a metros
             "genero": genero,
             "objetivo": objetivo,
             "actividad_fisica": actividad_fisica,  # Guardado como 0 (Baja) o 1 (Alta)
@@ -56,7 +50,6 @@ def recomendaciones():
         print(usuario_json)
 
         # Obtener recomendaciones usando el motor de inferencia
-        from knowledge.base_conocimiento import comidas
         from models.motor_experta import motor_inferencia
 
         # Ruta de los archivos

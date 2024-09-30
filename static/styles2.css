@@ -27,6 +27,7 @@ h1 {
     margin-bottom: 23px; /* Reducir margen inferior */
     text-align: center;
     text-shadow: 2px 2px 8px #000;
+    padding: 30px;
 }
 
 .grid-container {
