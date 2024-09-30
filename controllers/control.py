@@ -53,7 +53,7 @@ def recomendaciones():
         from models.motor_experta import motor_inferencia
 
         # Ruta de los archivos
-        ruta_reglas_txt = os.path.join('models', 'reglas', 'reglas.txt')
+        ruta_reglas_txt = os.path.join('models', 'reglas.txt')
         # Ruta de los archivos
         ruta_base_conocimiento = os.path.join('knowledge', 'base_conocimiento.txt')
 

@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\user\Downloads\si-food-system-expert-bryan-actualizacion\ProyectoSI01-Sistema_Experto\venv
+set VIRTUAL_ENV=C:\General\05 Universidad\Ciclo VIII\01 Sistemas Inteligentes\Tarea\07 Sem-Sistemas expertos\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
