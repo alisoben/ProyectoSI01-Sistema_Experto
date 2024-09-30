@@ -72,7 +72,6 @@ def motor_inferencia(usuario, ruta_reglas_txt, ruta_base_conocimiento):
 
     print("\nComidas recomendadas:\n")
     print(recomendaciones)
-
     return {
         "recomendaciones": recomendaciones
     }

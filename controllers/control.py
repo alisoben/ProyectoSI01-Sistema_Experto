@@ -54,7 +54,6 @@ def recomendaciones():
         ruta_reglas_txt = os.path.join('models', 'reglas.txt')
         ruta_base_conocimiento = os.path.join('knowledge', 'base_conocimiento.txt')
 
-
         recomendaciones_dieta = motor_inferencia(usuario, ruta_reglas_txt, ruta_base_conocimiento)
 
         # Desglosar las recomendaciones obtenidas (suponiendo que están en formato texto separado por saltos de línea)
