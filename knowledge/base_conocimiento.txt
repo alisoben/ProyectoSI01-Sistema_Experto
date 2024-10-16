@@ -1,0 +1,6 @@
+regla1: Dieta rica en proteínas y baja en carbohidratos. Desayuno: Batido de proteínas. Almuerzo: Pollo a la parrilla. Cena: Salmón.
+regla2: Dieta balanceada. Desayuno: Avena con frutas. Almuerzo: Ensalada de quinoa. Cena: Tofu.
+regla3: Dieta baja en calorías. Desayuno: Batido de vegetales. Almuerzo: Sopa de lentejas. Cena: Pescado.
+regla4: Dieta baja en grasas. Desayuno: Yogur bajo en grasas. Almuerzo: Pollo al vapor. Cena: Pavo con brócoli.
+regla5: Dieta moderada en carbohidratos. Desayuno: Pan integral con aguacate. Almuerzo: Pasta integral. Cena: Pechuga de pollo.
+regla6: Dieta para vida saludable con moderada actividad física. Desayuno: Avena con frutas y nueces. Almuerzo: Ensalada con pollo a la plancha. Cena: Salmón con vegetales al vapor.

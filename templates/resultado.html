@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Recomendaciones</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='resultado.css') }}">
+</head>
+<body>
+    <div class="frase">
+        <h1>Recomendaciones para ti</h1>
+    </div>
+
+    <!-- Sección con el marco blanco -->
+    <div class="resultado-comidas">
+        <h2>Comienza el día con energía:</h2>
+        <p>{{ recomendaciones['desayuno'] }}</p>
+
+        <h2>Nutre tu mediodía:</h2>
+        <p>{{ recomendaciones['almuerzo'] }}</p>
+
+        <h2>Recarga tu cuerpo para mañana:</h2>
+        <p>{{ recomendaciones['cena'] }}</p>
+    </div>
+
+    <!-- Botón para volver a obtener otra recomendación -->
+    <a href="/recomendaciones" class="btn-back">Obtener recomendación</a>
+</body>
+</html>
