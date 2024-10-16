@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados de Recomendaciones</title>
-    <link rel="stylesheet" href="../static/resultado.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='resultado.css') }}">
 </head>
 <body>
     <div class="frase">
@@ -23,7 +23,7 @@
         <p>{{ recomendaciones['cena'] }}</p>
     </div>
 
-    <!-- Botón para volver al inicio -->
+    <!-- Botón para volver a obtener otra recomendación -->
     <a href="/recomendaciones" class="btn-back">Obtener recomendación</a>
 </body>
 </html>

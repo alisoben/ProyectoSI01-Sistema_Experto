@@ -4,54 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recomendaciones</title>
-    <link rel="stylesheet" href="../static/styles2.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
 </head>
 <body>
     <div class="panel-izquierdo">
         <div>
             <h1>Indícanos tus datos y preferencias</h1>
         </div>
-        
+
         <form method="POST" action="/recomendaciones">
-            <!-- Ingresar edad, peso y altura -->
-            <div class="grid-container">
-                <!-- Género -->
-                <div class="grid-item">
-                    <label for="gender">Género:</label>
-                    <label for="male">
-                        <input type="radio" id="male" name="gender" value="M" required> Hombre
-                    </label>
-                    <label for="female">
-                        <input type="radio" id="female" name="gender" value="F" required> Mujer
-                    </label>
-                </div>
-
-                <!-- Selecciona tu objetivo -->
-                <div class="grid-item">
-                    <label for="objetivo">Selecciona tu objetivo:</label>
-                    <select id="objetivo" name="objetivo" required>
-                        <option value="" disabled selected> </option>
-                        <option value="bajar_peso">Bajar de peso</option>
-                        <option value="ganar_musculo">Desarrollo muscular</option>
-                        <option value="vida_saludable">Vida saludable</option>
-                    </select>
-                </div>
-
-                <!-- Nivel de actividad física (lógica difusa) -->
-                <div class="grid-item">
-                    <label for="actividad_fisica">Nivel de actividad física:</label>
-                    <select id="actividad_fisica" name="actividad_fisica" required>
-                        <option value="" disabled selected>Selecciona tu nivel</option>
-                        <option value="0.1">Bajo</option>
-                        <option value="0.5">Medio</option>
-                        <option value="1">Alto</option>
-                    </select>
-                </div>
+            <!-- Ingresar género -->
+            <div class="grid-item">
+                <label for="gender">Género:</label>
+                <label for="male">
+                    <input type="radio" id="male" name="gender" value="M" required> Hombre
+                </label>
+                <label for="female">
+                    <input type="radio" id="female" name="gender" value="F" required> Mujer
+                </label>
             </div>
 
-            <!-- Preferencias alimenticias con lógica difusa -->
+            <!-- Campo para peso -->
+            <div class="grid-item">
+                <label for="peso">Peso (kg):</label>
+                <input type="number" id="peso" name="peso" step="0.1" required>
+            </div>
+
+            <!-- Campo para altura -->
+            <div class="grid-item">
+                <label for="altura">Altura (m):</label>
+                <input type="number" id="altura" name="altura" step="0.01" required>
+            </div>
+
+            <!-- Selecciona tu objetivo -->
+            <div class="grid-item">
+                <label for="objetivo">Selecciona tu objetivo:</label>
+                <select id="objetivo" name="objetivo" required>
+                    <option value="" disabled selected> </option>
+                    <option value="bajar_peso">Bajar de peso</option>
+                    <option value="ganar_musculo">Desarrollo muscular</option>
+                    <option value="vida_saludable">Vida saludable</option>
+                </select>
+            </div>
+
+            <!-- Nivel de actividad física (lógica difusa) -->
+            <div class="grid-item">
+                <label for="actividad_fisica">Nivel de actividad física:</label>
+                <select id="actividad_fisica" name="actividad_fisica" required>
+                    <option value="" disabled selected>Selecciona tu nivel</option>
+                    <option value="1">1 - Muy bajo</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5 - Moderado</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10 - Muy alto</option>
+                </select>
+            </div>
+
+            <!-- Preferencias alimenticias -->
             <div class="multiple-options multiple-button-group">
-                <label class="padding-multiple-button">Indica el nivel de tus preferencias alimenticias:</label>
+                <label>Indica el nivel de tus preferencias alimenticias:</label>
 
                 <!-- Vegetariano -->
                 <div class="option-group">
@@ -114,9 +130,9 @@
                 </div>
             </div>
 
-            <!-- Condiciones médicas binarias -->
+            <!-- Condiciones médicas -->
             <div class="multiple-options multiple-button-group">
-                <label class="padding-multiple-button">Condiciones médicas (elige si las tienes o no):</label>
+                <label>Condiciones médicas (elige si las tienes o no):</label>
 
                 <!-- Diabetes -->
                 <div class="option-group">
