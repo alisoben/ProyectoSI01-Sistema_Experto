@@ -61,7 +61,7 @@ label {
     padding: 18px;
 }
 
-multiple-button-group {
+.multiple-button-group {
     padding: 18px;
 }
 
@@ -115,4 +115,39 @@ multiple-button-group {
     padding: 18px;
     position: relative;
     bottom: 0;
+}
+
+/* Estilos para las barras de selección horizontal */
+.option-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.option-group label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.options {
+    display: flex;
+    gap: 10px;
+}
+
+.options input[type="radio"] {
+    display: none;
+}
+
+.options label {
+    padding: 5px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Cambiar el color de fondo al seleccionar */
+.options input[type="radio"]:checked + label {
+    background-color: #007BFF;
+    color: white;
+    border-color: #007BFF;
 }

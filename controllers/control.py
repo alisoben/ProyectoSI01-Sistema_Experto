@@ -14,32 +14,29 @@ def recomendaciones():
         # Obtener los datos enviados por el formulario
         genero = request.form.get('gender')
         objetivo = request.form.get('objetivo')
-        actividad_fisica = int(request.form.get('actividad_fisica'))
+        actividad_fisica = float(request.form.get('actividad_fisica'))
 
-        # Obtener los valores binarios para preferencias y condiciones
-        preferencias_bin = request.form.get('preferencias', '0000')
-        condiciones_bin = request.form.get('condiciones', '0000')
-
-        # Mapeo de las preferencias y condiciones con los valores binarios
+        # Obtener los valores difusos para preferencias alimenticias
         preferencias = {
-            "vegetariano": int(preferencias_bin[0]),
-            "sin_lactosa": int(preferencias_bin[1]),
-            "sin_gluten": int(preferencias_bin[2]),
-            "bajo_carbohidratos": int(preferencias_bin[3])
+            "vegetariano": float(request.form.get('preferencias[vegetariano]')),
+            "sin_lactosa": float(request.form.get('preferencias[sin_lactosa]')),
+            "sin_gluten": float(request.form.get('preferencias[sin_gluten]')),
+            "bajo_carbohidratos": float(request.form.get('preferencias[bajo_carbohidratos]'))
         }
 
+        # Obtener los valores binarios para las condiciones médicas
         condiciones_medicas = {
-            "diabetes": int(condiciones_bin[0]),
-            "hipertension": int(condiciones_bin[1]),
-            "colesterol": int(condiciones_bin[2]),
-            "anemia": int(condiciones_bin[3])
+            "diabetes": int(request.form.get('condiciones[diabetes]')),
+            "hipertension": int(request.form.get('condiciones[hipertension]')),
+            "colesterol": int(request.form.get('condiciones[colesterol]')),
+            "anemia": int(request.form.get('condiciones[anemia]'))
         }
 
         # Crear el diccionario del usuario
         usuario = {
             "genero": genero,
             "objetivo": objetivo,
-            "actividad_fisica": actividad_fisica,  # Guardado como 0 (Baja) o 1 (Alta)
+            "actividad_fisica": actividad_fisica,
             "preferencias": preferencias,
             "condiciones_medicas": condiciones_medicas
         }
@@ -48,19 +45,17 @@ def recomendaciones():
         print("Datos del usuario en formato JSON:")
         print(usuario_json)
 
-        # Obtener recomendaciones usando el motor de inferencia
+        # Obtener recomendaciones usando el motor de inferencia con lógica difusa
         from models.motor_experta import motor_inferencia
 
-        ruta_reglas_txt = os.path.join('models', 'reglas.txt')
         ruta_base_conocimiento = os.path.join('knowledge', 'base_conocimiento.txt')
 
-        recomendaciones_dieta = motor_inferencia(usuario, ruta_reglas_txt, ruta_base_conocimiento)
+        recomendaciones_dieta = motor_inferencia(usuario, ruta_base_conocimiento)
 
-        # Desglosar las recomendaciones obtenidas (suponiendo que están en formato texto separado por saltos de línea)
+        # Desglosar las recomendaciones obtenidas
         if "recomendaciones" in recomendaciones_dieta:
             comidas = recomendaciones_dieta["recomendaciones"].split('\n')
 
-            # Extraer las comidas en base a su sección (Desayuno, Almuerzo, Cena)
             desayuno = next((line for line in comidas if line.startswith("Desayuno:")), "No disponible")
             almuerzo = next((line for line in comidas if line.startswith("Almuerzo:")), "No disponible")
             cena = next((line for line in comidas if line.startswith("Cena:")), "No disponible")
@@ -73,13 +68,3 @@ def recomendaciones():
             })
 
     return render_template("recomendacion.html")
-
-@app.route("/manejar_indicacion", methods=['POST'])
-def manejar_indicacion():
-    data = request.get_json()
-    indicacion = data.get('indicacion')
-    respuesta = {
-        "mensaje": "Mensaje recibido",
-        "indicacion": indicacion
-    }
-    return jsonify(respuesta)

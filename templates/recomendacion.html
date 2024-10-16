@@ -37,53 +37,141 @@
                     </select>
                 </div>
 
-                <!-- Nivel de actividad física -->
+                <!-- Nivel de actividad física (lógica difusa) -->
                 <div class="grid-item">
-                    <label for="actividad_fisica">¿Haces ejercicio?</label>
+                    <label for="actividad_fisica">Nivel de actividad física:</label>
                     <select id="actividad_fisica" name="actividad_fisica" required>
-                        <option value="" disabled selected> </option>
-                        <option value="0">No</option>
-                        <option value="1">Si</option>
+                        <option value="" disabled selected>Selecciona tu nivel</option>
+                        <option value="0.1">Bajo</option>
+                        <option value="0.5">Medio</option>
+                        <option value="1">Alto</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Preferencias alimenticias -->
+            <!-- Preferencias alimenticias con lógica difusa -->
             <div class="multiple-options multiple-button-group">
-                <label class="padding-multiple-button">Elige tus preferencias alimenticias (selecciona varias si lo deseas):</label>
-                <div class="preferencias multiple-button">
-                    <button type="button" data-group="preferencias" data-index="0">Vegetariano</button>
-                    <button type="button" data-group="preferencias" data-index="1">Sin lactosa</button>
-                    <button type="button" data-group="preferencias" data-index="2">Sin gluten</button>
-                    <button type="button" data-group="preferencias" data-index="3">Bajo en carbohidratos</button>
+                <label class="padding-multiple-button">Indica el nivel de tus preferencias alimenticias:</label>
+
+                <!-- Vegetariano -->
+                <div class="option-group">
+                    <label for="vegetariano">Vegetariano:</label>
+                    <div class="options">
+                        <input type="radio" id="veg_bajo" name="preferencias[vegetariano]" value="0.1" required>
+                        <label for="veg_bajo">Bajo</label>
+
+                        <input type="radio" id="veg_medio" name="preferencias[vegetariano]" value="0.5">
+                        <label for="veg_medio">Medio</label>
+
+                        <input type="radio" id="veg_alto" name="preferencias[vegetariano]" value="1">
+                        <label for="veg_alto">Alto</label>
+                    </div>
+                </div>
+
+                <!-- Sin lactosa -->
+                <div class="option-group">
+                    <label for="sin_lactosa">Sin lactosa:</label>
+                    <div class="options">
+                        <input type="radio" id="lact_bajo" name="preferencias[sin_lactosa]" value="0.1" required>
+                        <label for="lact_bajo">Bajo</label>
+
+                        <input type="radio" id="lact_medio" name="preferencias[sin_lactosa]" value="0.5">
+                        <label for="lact_medio">Medio</label>
+
+                        <input type="radio" id="lact_alto" name="preferencias[sin_lactosa]" value="1">
+                        <label for="lact_alto">Alto</label>
+                    </div>
+                </div>
+
+                <!-- Sin gluten -->
+                <div class="option-group">
+                    <label for="sin_gluten">Sin gluten:</label>
+                    <div class="options">
+                        <input type="radio" id="gluten_bajo" name="preferencias[sin_gluten]" value="0.1" required>
+                        <label for="gluten_bajo">Bajo</label>
+
+                        <input type="radio" id="gluten_medio" name="preferencias[sin_gluten]" value="0.5">
+                        <label for="gluten_medio">Medio</label>
+
+                        <input type="radio" id="gluten_alto" name="preferencias[sin_gluten]" value="1">
+                        <label for="gluten_alto">Alto</label>
+                    </div>
+                </div>
+
+                <!-- Bajo en carbohidratos -->
+                <div class="option-group">
+                    <label for="bajo_carbohidratos">Bajo en carbohidratos:</label>
+                    <div class="options">
+                        <input type="radio" id="carb_bajo" name="preferencias[bajo_carbohidratos]" value="0.1" required>
+                        <label for="carb_bajo">Bajo</label>
+
+                        <input type="radio" id="carb_medio" name="preferencias[bajo_carbohidratos]" value="0.5">
+                        <label for="carb_medio">Medio</label>
+
+                        <input type="radio" id="carb_alto" name="preferencias[bajo_carbohidratos]" value="1">
+                        <label for="carb_alto">Alto</label>
+                    </div>
                 </div>
             </div>
 
-            <!-- Inputs ocultos para preferencias alimenticias -->
-            <input type="hidden" name="preferencias" id="preferencias" value="0000">
+            <!-- Condiciones médicas binarias -->
+            <div class="multiple-options multiple-button-group">
+                <label class="padding-multiple-button">Condiciones médicas (elige si las tienes o no):</label>
 
-            <!-- Condiciones médicas -->
-            <div class="multiple-button-group">
-                <label class="padding-multiple-button">Elige tus condiciones médicas (selecciona varias si lo deseas):</label>
-                <div class="medical-conditions multiple-button">
-                    <button type="button" data-group="condiciones" data-index="0">Diabetes</button>
-                    <button type="button" data-group="condiciones" data-index="1">Hipertensión</button>
-                    <button type="button" data-group="condiciones" data-index="2">Colesterol alto</button>
-                    <button type="button" data-group="condiciones" data-index="3">Anemia</button>
+                <!-- Diabetes -->
+                <div class="option-group">
+                    <label for="diabetes">Diabetes:</label>
+                    <div class="options">
+                        <input type="radio" id="diabetes_no" name="condiciones[diabetes]" value="0" required>
+                        <label for="diabetes_no">No</label>
+
+                        <input type="radio" id="diabetes_si" name="condiciones[diabetes]" value="1">
+                        <label for="diabetes_si">Sí</label>
+                    </div>
+                </div>
+
+                <!-- Hipertensión -->
+                <div class="option-group">
+                    <label for="hipertension">Hipertensión:</label>
+                    <div class="options">
+                        <input type="radio" id="hipertension_no" name="condiciones[hipertension]" value="0" required>
+                        <label for="hipertension_no">No</label>
+
+                        <input type="radio" id="hipertension_si" name="condiciones[hipertension]" value="1">
+                        <label for="hipertension_si">Sí</label>
+                    </div>
+                </div>
+
+                <!-- Colesterol -->
+                <div class="option-group">
+                    <label for="colesterol">Colesterol:</label>
+                    <div class="options">
+                        <input type="radio" id="colesterol_no" name="condiciones[colesterol]" value="0" required>
+                        <label for="colesterol_no">No</label>
+
+                        <input type="radio" id="colesterol_si" name="condiciones[colesterol]" value="1">
+                        <label for="colesterol_si">Sí</label>
+                    </div>
+                </div>
+
+                <!-- Anemia -->
+                <div class="option-group">
+                    <label for="anemia">Anemia:</label>
+                    <div class="options">
+                        <input type="radio" id="anemia_no" name="condiciones[anemia]" value="0" required>
+                        <label for="anemia_no">No</label>
+
+                        <input type="radio" id="anemia_si" name="condiciones[anemia]" value="1">
+                        <label for="anemia_si">Sí</label>
+                    </div>
                 </div>
             </div>
-
-            <!-- Inputs ocultos para condiciones médicas -->
-            <input type="hidden" name="condiciones" id="condiciones" value="0000">
 
             <div class="botones">
                 <a href="/" class="btn-back">Volver al Inicio</a>
                 <button type="submit" class="btn-submit">Obtener Recomendaciones</button>
             </div>
         </form>
-
-        <!-- Script para manejar la selección múltiple -->
-        <script src="../static/script.js"></script>
     </div>
 </body>
 </html>
