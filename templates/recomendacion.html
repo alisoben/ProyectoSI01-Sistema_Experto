@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recomendaciones</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
+    <script>
+        // Script para actualizar los valores de los sliders
+        function updateSliderValue(sliderId, labelId) {
+            var slider = document.getElementById(sliderId);
+            var label = document.getElementById(labelId);
+            label.innerHTML = slider.value;
+        }
+    </script>
 </head>
 <body>
     <div class="panel-izquierdo">
@@ -67,66 +75,30 @@
 
             <!-- Preferencias alimenticias -->
             <div class="multiple-options multiple-button-group">
-                <label>Indica el nivel de tus preferencias alimenticias:</label>
+                <label>Indica el nivel de tus preferencias alimenticias (0.0 a 1.0):</label>
 
                 <!-- Vegetariano -->
                 <div class="option-group">
-                    <label for="vegetariano">Vegetariano:</label>
-                    <div class="options">
-                        <input type="radio" id="veg_bajo" name="preferencias[vegetariano]" value="0.1" required>
-                        <label for="veg_bajo">Bajo</label>
-
-                        <input type="radio" id="veg_medio" name="preferencias[vegetariano]" value="0.5">
-                        <label for="veg_medio">Medio</label>
-
-                        <input type="radio" id="veg_alto" name="preferencias[vegetariano]" value="1">
-                        <label for="veg_alto">Alto</label>
-                    </div>
+                    <label for="vegetariano">Vegetariano: <span id="vegetariano_value">0.5</span></label>
+                    <input type="range" id="vegetariano" name="preferencias[vegetariano]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('vegetariano', 'vegetariano_value')">
                 </div>
 
                 <!-- Sin lactosa -->
                 <div class="option-group">
-                    <label for="sin_lactosa">Sin lactosa:</label>
-                    <div class="options">
-                        <input type="radio" id="lact_bajo" name="preferencias[sin_lactosa]" value="0.1" required>
-                        <label for="lact_bajo">Bajo</label>
-
-                        <input type="radio" id="lact_medio" name="preferencias[sin_lactosa]" value="0.5">
-                        <label for="lact_medio">Medio</label>
-
-                        <input type="radio" id="lact_alto" name="preferencias[sin_lactosa]" value="1">
-                        <label for="lact_alto">Alto</label>
-                    </div>
+                    <label for="sin_lactosa">Sin lactosa: <span id="sin_lactosa_value">0.5</span></label>
+                    <input type="range" id="sin_lactosa" name="preferencias[sin_lactosa]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('sin_lactosa', 'sin_lactosa_value')">
                 </div>
 
                 <!-- Sin gluten -->
                 <div class="option-group">
-                    <label for="sin_gluten">Sin gluten:</label>
-                    <div class="options">
-                        <input type="radio" id="gluten_bajo" name="preferencias[sin_gluten]" value="0.1" required>
-                        <label for="gluten_bajo">Bajo</label>
-
-                        <input type="radio" id="gluten_medio" name="preferencias[sin_gluten]" value="0.5">
-                        <label for="gluten_medio">Medio</label>
-
-                        <input type="radio" id="gluten_alto" name="preferencias[sin_gluten]" value="1">
-                        <label for="gluten_alto">Alto</label>
-                    </div>
+                    <label for="sin_gluten">Sin gluten: <span id="sin_gluten_value">0.5</span></label>
+                    <input type="range" id="sin_gluten" name="preferencias[sin_gluten]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('sin_gluten', 'sin_gluten_value')">
                 </div>
 
                 <!-- Bajo en carbohidratos -->
                 <div class="option-group">
-                    <label for="bajo_carbohidratos">Bajo en carbohidratos:</label>
-                    <div class="options">
-                        <input type="radio" id="carb_bajo" name="preferencias[bajo_carbohidratos]" value="0.1" required>
-                        <label for="carb_bajo">Bajo</label>
-
-                        <input type="radio" id="carb_medio" name="preferencias[bajo_carbohidratos]" value="0.5">
-                        <label for="carb_medio">Medio</label>
-
-                        <input type="radio" id="carb_alto" name="preferencias[bajo_carbohidratos]" value="1">
-                        <label for="carb_alto">Alto</label>
-                    </div>
+                    <label for="bajo_carbohidratos">Bajo en carbohidratos: <span id="bajo_carbohidratos_value">0.5</span></label>
+                    <input type="range" id="bajo_carbohidratos" name="preferencias[bajo_carbohidratos]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('bajo_carbohidratos', 'bajo_carbohidratos_value')">
                 </div>
             </div>
 

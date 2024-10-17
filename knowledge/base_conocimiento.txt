@@ -1,6 +1,20 @@
 regla1: Dieta rica en proteínas y baja en carbohidratos. Desayuno: Batido de proteínas. Almuerzo: Pollo a la parrilla. Cena: Salmón.
-regla2: Dieta balanceada. Desayuno: Avena con frutas. Almuerzo: Ensalada de quinoa. Cena: Tofu.
-regla3: Dieta baja en calorías. Desayuno: Batido de vegetales. Almuerzo: Sopa de lentejas. Cena: Pescado.
-regla4: Dieta baja en grasas. Desayuno: Yogur bajo en grasas. Almuerzo: Pollo al vapor. Cena: Pavo con brócoli.
+regla2: Dieta balanceada con moderada actividad física. Desayuno: Avena con frutas. Almuerzo: Ensalada de quinoa. Cena: Tofu.
+regla3: Dieta baja en calorías y alta en proteínas. Desayuno: Batido de vegetales. Almuerzo: Sopa de lentejas. Cena: Pescado.
+regla4: Dieta baja en grasas y alta en proteínas. Desayuno: Yogur bajo en grasas. Almuerzo: Pollo al vapor. Cena: Pavo con brócoli.
 regla5: Dieta moderada en carbohidratos. Desayuno: Pan integral con aguacate. Almuerzo: Pasta integral. Cena: Pechuga de pollo.
-regla6: Dieta para vida saludable con moderada actividad física. Desayuno: Avena con frutas y nueces. Almuerzo: Ensalada con pollo a la plancha. Cena: Salmón con vegetales al vapor.
+regla6: Dieta para vida saludable con actividad moderada. Desayuno: Avena con frutas. Almuerzo: Ensalada con pollo. Cena: Salmón y vegetales.
+regla7: Dieta alta en carbohidratos y proteínas para desarrollo muscular. Desayuno: Tortilla de claras. Almuerzo: Arroz con pollo. Cena: Ternera.
+regla8: Dieta con alta fibra y baja en grasas. Desayuno: Batido de frutas. Almuerzo: Sopa de verduras. Cena: Pavo con ensalada.
+regla9: Dieta baja en sodio y grasas. Desayuno: Avena sin sal con frutas. Almuerzo: Ensalada verde con pechuga de pollo. Cena: Pescado al vapor con brócoli.
+regla10: Dieta alta en carbohidratos complejos. Desayuno: Avena con frutos secos. Almuerzo: Pasta integral con pollo. Cena: Batata asada con pescado.
+regla11: Dieta rica en fibras y proteínas. Desayuno: Pan integral con huevo. Almuerzo: Quinoa con vegetales. Cena: Pechuga de pavo a la parrilla.
+regla12: Dieta baja en calorías y rica en verduras. Desayuno: Batido verde. Almuerzo: Sopa de verduras. Cena: Ensalada con tofu.
+regla13: Dieta alta en proteínas con alta actividad física. Desayuno: Tortilla de claras. Almuerzo: Pavo a la plancha. Cena: Pollo al vapor.
+regla14: Dieta alta en proteínas y moderada en grasas. Desayuno: Yogur griego. Almuerzo: Ensalada de pollo. Cena: Pescado a la plancha.
+regla15: Dieta baja en carbohidratos y alta en fibra. Desayuno: Avena con semillas. Almuerzo: Sopa de verduras. Cena: Filete de ternera.
+regla16: Dieta balanceada con grasas saludables. Desayuno: Tostada de aguacate. Almuerzo: Ensalada de atún. Cena: Salmón con espinacas.
+regla17: Dieta alta en carbohidratos para ganancia muscular. Desayuno: Avena con frutos secos. Almuerzo: Pasta con pollo. Cena: Filete de ternera.
+regla18: Dieta con bajo índice glucémico. Desayuno: Yogur bajo en azúcar. Almuerzo: Pavo con quinoa. Cena: Ensalada verde con pescado.
+regla19: Dieta para mantenimiento de peso. Desayuno: Smoothie verde. Almuerzo: Ensalada de lentejas. Cena: Pollo al horno con vegetales.
+regla20: Dieta equilibrada en proteínas y carbohidratos. Desayuno: Tortilla de espinacas. Almuerzo: Arroz integral con salmón. Cena: Pavo asado con brócoli.
