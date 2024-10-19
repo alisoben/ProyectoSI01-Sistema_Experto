@@ -38,3 +38,33 @@ regla37: Dieta balanceada en proteínas y fibras. Desayuno: Huevos con espinacas
 regla38: Dieta alta en carbohidratos para desarrollo muscular. Desayuno: Avena con miel. Almuerzo: Pasta integral con pollo. Cena: Filete de ternera con patatas.
 regla39: Dieta alta en fibras. Desayuno: Smoothie verde. Almuerzo: Ensalada de lentejas. Cena: Pescado al horno con vegetales.
 regla40: Dieta balanceada con énfasis en vegetales. Desayuno: Batido de espinacas. Almuerzo: Ensalada de garbanzos. Cena: Atún con vegetales.
+regla41: Dieta baja en calorías. Desayuno: Yogur con frutos secos. Almuerzo: Ensalada de espinacas. Cena: Pavo con espárragos.
+regla42: Dieta rica en proteínas y carbohidratos. Desayuno: Avena con miel. Almuerzo: Pollo con arroz integral. Cena: Salmón al horno con brócoli.
+regla43: Dieta alta en fibras y baja en grasas. Desayuno: Smoothie verde. Almuerzo: Ensalada de quinoa. Cena: Pescado a la parrilla con vegetales.
+regla44: Dieta equilibrada en carbohidratos. Desayuno: Pan integral con aguacate. Almuerzo: Pasta integral. Cena: Pollo al vapor con verduras.
+regla45: Dieta vegetariana con alto contenido proteico. Desayuno: Tostadas de aguacate. Almuerzo: Ensalada de garbanzos. Cena: Hamburguesa de tofu.
+regla46: Dieta para ganancia muscular. Desayuno: Huevos con espinacas. Almuerzo: Ternera a la plancha con patatas. Cena: Quinoa con pollo.
+regla47: Dieta alta en proteínas sin gluten. Desayuno: Smoothie de frutas. Almuerzo: Pechuga de pollo con ensalada. Cena: Salmón a la plancha con espárragos.
+regla48: Dieta baja en carbohidratos y azúcares. Desayuno: Tortilla de claras. Almuerzo: Pollo a la parrilla con brócoli. Cena: Filete de pescado con ensalada.
+regla49: Dieta rica en vegetales y fibra. Desayuno: Batido de espinacas. Almuerzo: Sopa de lentejas. Cena: Ensalada de vegetales con tofu.
+regla50: Dieta moderada en grasas saludables. Desayuno: Yogur griego con frutos secos. Almuerzo: Ensalada de atún. Cena: Pollo a la parrilla con aguacate.
+regla51: Dieta baja en grasas. Desayuno: Smoothie de frutas. Almuerzo: Ensalada de pollo. Cena: Pescado al vapor con brócoli.
+regla52: Dieta alta en carbohidratos complejos. Desayuno: Avena con plátano. Almuerzo: Pasta con pollo. Cena: Batata asada con pescado.
+regla53: Dieta vegetariana rica en proteínas. Desayuno: Tofu revuelto. Almuerzo: Ensalada de lentejas. Cena: Hamburguesa de garbanzos.
+regla54: Dieta equilibrada para vida activa. Desayuno: Yogur con avena y frutas. Almuerzo: Arroz integral con pollo. Cena: Salmón con espinacas.
+regla55: Dieta baja en sodio. Desayuno: Smoothie de espinaca. Almuerzo: Sopa de vegetales. Cena: Pechuga de pollo al vapor.
+regla56: Dieta alta en proteínas para ganancia muscular. Desayuno: Huevos revueltos con espinacas. Almuerzo: Filete de res con arroz. Cena: Pollo a la parrilla con patatas.
+regla57: Dieta sin lactosa y alta en fibra. Desayuno: Avena con leche de almendras. Almuerzo: Ensalada de quinoa. Cena: Sopa de lentejas.
+regla58: Dieta sin gluten. Desayuno: Smoothie de frutas sin gluten. Almuerzo: Pollo a la parrilla con ensalada. Cena: Filete de pescado con vegetales.
+regla59: Dieta rica en grasas saludables. Desayuno: Tostada de aguacate. Almuerzo: Ensalada de atún. Cena: Salmón con aguacate.
+regla60: Dieta moderada en calorías. Desayuno: Yogur bajo en azúcar. Almuerzo: Pasta integral con pollo. Cena: Ternera con brócoli.
+regla61: Dieta alta en carbohidratos y baja en grasas. Desayuno: Avena con frutas. Almuerzo: Pasta con verduras. Cena: Arroz con pollo.
+regla62: Dieta vegetariana sin gluten. Desayuno: Smoothie de vegetales. Almuerzo: Ensalada de quinoa. Cena: Hamburguesa de tofu.
+regla63: Dieta baja en azúcares y carbohidratos. Desayuno: Huevos revueltos. Almuerzo: Ensalada de pollo. Cena: Pescado a la plancha con vegetales.
+regla64: Dieta para control de peso. Desayuno: Smoothie verde. Almuerzo: Sopa de lentejas. Cena: Pechuga de pavo con brócoli.
+regla65: Dieta balanceada para mantener energía. Desayuno: Pan integral con aguacate. Almuerzo: Ensalada de atún. Cena: Pollo al vapor con quinoa.
+regla66: Dieta alta en fibra para mejorar digestión. Desayuno: Smoothie de espinacas y manzana. Almuerzo: Sopa de lentejas. Cena: Ensalada de vegetales.
+regla67: Dieta sin lactosa y baja en grasas. Desayuno: Smoothie de frutas con leche de almendras. Almuerzo: Ensalada de pollo. Cena: Pescado a la parrilla con vegetales.
+regla68: Dieta alta en proteínas para actividad intensa. Desayuno: Huevos con espinacas. Almuerzo: Filete de res con quinoa. Cena: Pollo al vapor con espárragos.
+regla69: Dieta sin gluten y alta en carbohidratos complejos. Desayuno: Avena con miel. Almuerzo: Pasta de arroz con pollo. Cena: Pescado con patatas.
+regla70: Dieta vegetariana alta en proteínas. Desayuno: Smoothie de espinaca y avena. Almuerzo: Ensalada de garbanzos. Cena: Tofu con quinoa.
