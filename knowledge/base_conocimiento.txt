@@ -18,3 +18,13 @@ regla17: Dieta alta en carbohidratos para ganancia muscular. Desayuno: Avena con
 regla18: Dieta con bajo índice glucémico. Desayuno: Yogur bajo en azúcar. Almuerzo: Pavo con quinoa. Cena: Ensalada verde con pescado.
 regla19: Dieta para mantenimiento de peso. Desayuno: Smoothie verde. Almuerzo: Ensalada de lentejas. Cena: Pollo al horno con vegetales.
 regla20: Dieta equilibrada en proteínas y carbohidratos. Desayuno: Tortilla de espinacas. Almuerzo: Arroz integral con salmón. Cena: Pavo asado con brócoli.
+regla21: Dieta alta en fibra y proteínas. Desayuno: Smoothie de espinaca. Almuerzo: Ensalada de garbanzos. Cena: Pescado al vapor.
+regla22: Dieta para desarrollo muscular. Desayuno: Huevos revueltos. Almuerzo: Filete de res. Cena: Pechuga de pollo a la plancha.
+regla23: Dieta saludable para control de colesterol. Desayuno: Avena con leche de almendras. Almuerzo: Pollo con quinoa. Cena: Ensalada de espinacas.
+regla24: Dieta moderada en carbohidratos y grasas saludables. Desayuno: Batido de frutas. Almuerzo: Sopa de verduras. Cena: Pavo con aguacate.
+regla25: Dieta baja en grasas y moderada en proteínas. Desayuno: Yogur bajo en grasas. Almuerzo: Ensalada de tofu. Cena: Merluza a la parrilla.
+regla26: Dieta alta en proteínas y sin gluten. Desayuno: Batido de proteínas sin gluten. Almuerzo: Pollo a la parrilla con ensalada. Cena: Salmón a la plancha.
+regla27: Dieta balanceada con énfasis en proteínas y carbohidratos. Desayuno: Pan integral con aguacate. Almuerzo: Pollo al horno. Cena: Atún con quinoa.
+regla28: Dieta alta en carbohidratos complejos. Desayuno: Avena con plátano. Almuerzo: Pasta integral. Cena: Sopa de lentejas.
+regla29: Dieta baja en calorías con preferencia vegetariana. Desayuno: Tostadas de aguacate. Almuerzo: Ensalada de quinoa. Cena: Hamburguesa de garbanzos.
+regla30: Dieta sin gluten y alta en proteínas. Desayuno: Smoothie de frutas sin gluten. Almuerzo: Pavo a la plancha. Cena: Ensalada de pollo.
