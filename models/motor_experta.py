@@ -21,7 +21,7 @@ def evaluar_pertenencia_general(valor, conjuntos):
     categoria_dominante = max(resultado, key=resultado.get)
     return categoria_dominante, resultado[categoria_dominante]
 
-# Cargar las reglas difusas desde un archivo JSON
+# Cargar las reglas difusas y conjuntos difusos desde un archivo JSON
 def cargar_reglas(archivo):
     try:
         with open(archivo, 'r') as f:
@@ -55,39 +55,24 @@ def cargar_recomendaciones(archivo):
         return {}
 
 # Clasificar valores de IMC y actividad física utilizando lógica difusa
-def clasificar_imc(imc):
-    conjuntos_imc = {
-        "bajo": [0, 0, 18.5, 20],
-        "medio": [18.5, 22, 24, 30],
-        "alto": [24, 28, 35, 100]
-    }
-    return evaluar_pertenencia_general(imc, conjuntos_imc)
+def clasificar_imc(imc, conjuntos_difusos):
+    return evaluar_pertenencia_general(imc, conjuntos_difusos["imc"])
 
-def clasificar_actividad_fisica(nivel_actividad):
-    conjuntos_actividad = {
-        "baja": [0, 0, 1, 2],
-        "media": [1, 2, 3, 5],
-        "alta": [3, 5, 6, 10]
-    }
-    return evaluar_pertenencia_general(nivel_actividad, conjuntos_actividad)
+def clasificar_actividad_fisica(nivel_actividad, conjuntos_difusos):
+    return evaluar_pertenencia_general(nivel_actividad, conjuntos_difusos["actividad_fisica"])
 
 # Función para clasificar preferencias utilizando lógica difusa
-def clasificar_preferencia(valor):
-    conjuntos_preferencia = {
-        "baja": [0, 0, 0.3, 0.4],
-        "media": [0.3, 0.4, 0.6, 0.7],
-        "alta": [0.6, 0.7, 1, 1]
-    }
-    return evaluar_pertenencia_general(valor, conjuntos_preferencia)
+def clasificar_preferencia(valor, conjuntos_difusos):
+    return evaluar_pertenencia_general(valor, conjuntos_difusos["preferencia"])
 
 # Evaluar reglas basadas en el IMC, actividad física, género, preferencias, condiciones y objetivos
-def evaluar_reglas(datos_usuario, reglas):
+def evaluar_reglas(datos_usuario, reglas, conjuntos_difusos):
     resultados = {}
-    imc_clasificado, _ = clasificar_imc(datos_usuario['imc'])
-    actividad_clasificada, _ = clasificar_actividad_fisica(datos_usuario['actividad_fisica'])
+    imc_clasificado, _ = clasificar_imc(datos_usuario['imc'], conjuntos_difusos)
+    actividad_clasificada, _ = clasificar_actividad_fisica(datos_usuario['actividad_fisica'], conjuntos_difusos)
 
     # Clasificar cada preferencia del usuario
-    preferencias_clasificadas = [clasificar_preferencia(pref)[0] for pref in datos_usuario['preferencias']]
+    preferencias_clasificadas = [clasificar_preferencia(pref, conjuntos_difusos)[0] for pref in datos_usuario['preferencias']]
 
     for regla, condiciones in reglas["reglas"].items():
         try:
@@ -121,7 +106,6 @@ def evaluar_reglas(datos_usuario, reglas):
             continue
     return resultados
 
-
 # Seleccionar la recomendación basada en la regla con mayor pertenencia
 def obtener_recomendacion(resultados, recomendaciones, umbral=0.4):
     # Filtrar las reglas que superen el umbral de pertenencia
@@ -137,8 +121,9 @@ def obtener_recomendacion(resultados, recomendaciones, umbral=0.4):
 
 # Definir la función 'motor_inferencia' para ser usada en el proyecto Flask
 def motor_inferencia(usuario, ruta_base_conocimiento):
-    # Cargar reglas y base de conocimientos
+    # Cargar reglas y conjuntos difusos desde el archivo JSON
     reglas = cargar_reglas('models/reglas.json')
+    conjuntos_difusos = reglas.get("conjuntos_difusos", {})
 
     print("Reglas cargadas:", reglas)
 
@@ -152,7 +137,7 @@ def motor_inferencia(usuario, ruta_base_conocimiento):
         return {"recomendaciones": "No se pudieron cargar las recomendaciones."}
 
     # Evaluar reglas con los datos del usuario
-    resultados = evaluar_reglas(usuario, reglas)
+    resultados = evaluar_reglas(usuario, reglas, conjuntos_difusos)
     print("Resultados de la evaluación de reglas:", resultados)
 
     # Obtener la recomendación con base en las reglas evaluadas y umbral mínimo
