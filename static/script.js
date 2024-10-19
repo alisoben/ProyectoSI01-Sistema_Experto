@@ -39,3 +39,10 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+// Script para actualizar los valores de los sliders
+function updateSliderValue(sliderId, labelId) {
+    var slider = document.getElementById(sliderId);
+    var label = document.getElementById(labelId);
+    label.innerHTML = slider.value;
+}

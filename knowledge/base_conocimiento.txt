@@ -28,3 +28,13 @@ regla27: Dieta balanceada con énfasis en proteínas y carbohidratos. Desayuno: 
 regla28: Dieta alta en carbohidratos complejos. Desayuno: Avena con plátano. Almuerzo: Pasta integral. Cena: Sopa de lentejas.
 regla29: Dieta baja en calorías con preferencia vegetariana. Desayuno: Tostadas de aguacate. Almuerzo: Ensalada de quinoa. Cena: Hamburguesa de garbanzos.
 regla30: Dieta sin gluten y alta en proteínas. Desayuno: Smoothie de frutas sin gluten. Almuerzo: Pavo a la plancha. Cena: Ensalada de pollo.
+regla31: Dieta baja en grasas con proteínas magras. Desayuno: Yogur griego con frutos rojos. Almuerzo: Ensalada de garbanzos. Cena: Pollo asado con espárragos.
+regla32: Dieta vegetariana para bajo peso. Desayuno: Smoothie verde. Almuerzo: Ensalada de quinoa con aguacate. Cena: Hamburguesa de lentejas.
+regla33: Dieta alta en proteínas y carbohidratos. Desayuno: Avena con almendras. Almuerzo: Pollo con arroz integral. Cena: Salmón al horno con espárragos.
+regla34: Dieta moderada en calorías. Desayuno: Tostadas integrales con hummus. Almuerzo: Sopa de calabaza. Cena: Pescado a la plancha con verduras.
+regla35: Dieta baja en grasas y alta en proteínas. Desayuno: Yogur sin grasa con avena. Almuerzo: Sopa de lentejas. Cena: Pechuga de pollo.
+regla36: Dieta sin gluten, alta en vegetales. Desayuno: Batido de frutas sin gluten. Almuerzo: Ensalada de kale con tofu. Cena: Verduras al vapor con quinua.
+regla37: Dieta balanceada en proteínas y fibras. Desayuno: Huevos con espinacas. Almuerzo: Quinoa con pavo. Cena: Salmón a la parrilla.
+regla38: Dieta alta en carbohidratos para desarrollo muscular. Desayuno: Avena con miel. Almuerzo: Pasta integral con pollo. Cena: Filete de ternera con patatas.
+regla39: Dieta alta en fibras. Desayuno: Smoothie verde. Almuerzo: Ensalada de lentejas. Cena: Pescado al horno con vegetales.
+regla40: Dieta balanceada con énfasis en vegetales. Desayuno: Batido de espinacas. Almuerzo: Ensalada de garbanzos. Cena: Atún con vegetales.

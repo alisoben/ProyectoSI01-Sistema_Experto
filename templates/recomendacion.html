@@ -60,48 +60,43 @@
                 <label for="actividad_fisica">Nivel de actividad física:</label>
                 <select id="actividad_fisica" name="actividad_fisica" required class="input-small">
                     <option value="" disabled selected>Selecciona</option>
-                    <option value="1">1 - Muy bajo</option>
+                    <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
-                    <option value="5">5 - Moderado</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10 - Muy alto</option>
+                    <option value="5">5</option>
                 </select>
             </div>
 
             <!-- Preferencias alimenticias -->
             <div class="multiple-options">
                 <label>Indica tus preferencias alimenticias (0.0 a 1.0)</label>
-            
+
                 <!-- Vegetariano -->
                 <div class="option-group">
                     <label for="vegetariano">Vegetariano</label>
-                    <input type="range" id="vegetariano" name="preferencias[vegetariano]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('vegetariano', 'vegetariano_value')">
+                    <input type="range" id="vegetariano" name="preferencias[vegetariano]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('vegetariano', 'vegetariano_value')" class="slider-preferencia">
                     <span id="vegetariano_value">0.5</span>
                 </div>
-            
+
                 <!-- Sin lactosa -->
                 <div class="option-group">
                     <label for="sin_lactosa">Sin lactosa</label>
-                    <input type="range" id="sin_lactosa" name="preferencias[sin_lactosa]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('sin_lactosa', 'sin_lactosa_value')">
+                    <input type="range" id="sin_lactosa" name="preferencias[sin_lactosa]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('sin_lactosa', 'sin_lactosa_value')" class="slider-preferencia">
                     <span id="sin_lactosa_value">0.5</span>
                 </div>
-            
+
                 <!-- Sin gluten -->
                 <div class="option-group">
                     <label for="sin_gluten">Sin gluten</label>
-                    <input type="range" id="sin_gluten" name="preferencias[sin_gluten]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('sin_gluten', 'sin_gluten_value')">
+                    <input type="range" id="sin_gluten" name="preferencias[sin_gluten]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('sin_gluten', 'sin_gluten_value')" class="slider-preferencia">
                     <span id="sin_gluten_value">0.5</span>
                 </div>
-            
+
                 <!-- Bajo en carbohidratos -->
                 <div class="option-group">
                     <label for="bajo_carbohidratos">Carbohidratos</label>
-                    <input type="range" id="bajo_carbohidratos" name="preferencias[bajo_carbohidratos]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('bajo_carbohidratos', 'bajo_carbohidratos_value')">
+                    <input type="range" id="bajo_carbohidratos" name="preferencias[bajo_carbohidratos]" min="0" max="1" step="0.01" value="0.5" oninput="updateSliderValue('bajo_carbohidratos', 'bajo_carbohidratos_value')" class="slider-preferencia">
                     <span id="bajo_carbohidratos_value">0.5</span>
                 </div>
             </div>
@@ -163,3 +158,4 @@
     </div>
 </body>
 </html>
+
