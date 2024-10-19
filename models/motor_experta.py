@@ -1,10 +1,6 @@
 import json
 import os
 
-# Función para calcular el IMC
-def calcular_imc(peso, altura):
-    return peso / (altura ** 2)
-
 # Función de pertenencia trapezoidal con límites más flexibles
 def trapezoidal(x, a, b, c, d):
     if x <= a or x >= d:
@@ -15,6 +11,15 @@ def trapezoidal(x, a, b, c, d):
         return 1
     elif c < x < d:
         return (d - x) / (d - c)
+
+# Evaluar el grado de pertenencia y seleccionar la categoría dominante
+def evaluar_pertenencia_general(valor, conjuntos):
+    resultado = {}
+    for categoria, parametros in conjuntos.items():
+        resultado[categoria] = trapezoidal(valor, *parametros)
+    # Seleccionar la categoría con la pertenencia más alta
+    categoria_dominante = max(resultado, key=resultado.get)
+    return categoria_dominante, resultado[categoria_dominante]
 
 # Cargar las reglas difusas desde un archivo JSON
 def cargar_reglas(archivo):
@@ -49,34 +54,75 @@ def cargar_recomendaciones(archivo):
         print(f"Error: No se encontró el archivo {archivo}.")
         return {}
 
-# Evaluar las reglas basadas en el IMC, actividad física, género, preferencias, condiciones y objetivos
+# Clasificar valores de IMC y actividad física utilizando lógica difusa
+def clasificar_imc(imc):
+    conjuntos_imc = {
+        "bajo": [0, 0, 18.5, 20],
+        "medio": [18.5, 22, 24, 30],
+        "alto": [24, 28, 35, 100]
+    }
+    return evaluar_pertenencia_general(imc, conjuntos_imc)
+
+def clasificar_actividad_fisica(nivel_actividad):
+    conjuntos_actividad = {
+        "baja": [0, 0, 1, 2],
+        "media": [1, 2, 3, 5],
+        "alta": [3, 5, 6, 10]
+    }
+    return evaluar_pertenencia_general(nivel_actividad, conjuntos_actividad)
+
+# Función para clasificar preferencias utilizando lógica difusa
+def clasificar_preferencia(valor):
+    conjuntos_preferencia = {
+        "baja": [0, 0, 0.3, 0.4],
+        "media": [0.3, 0.4, 0.6, 0.7],
+        "alta": [0.6, 0.7, 1, 1]
+    }
+    return evaluar_pertenencia_general(valor, conjuntos_preferencia)
+
+# Evaluar reglas basadas en el IMC, actividad física, género, preferencias, condiciones y objetivos
 def evaluar_reglas(datos_usuario, reglas):
     resultados = {}
-    for regla, condiciones in reglas.items():
+    imc_clasificado, _ = clasificar_imc(datos_usuario['imc'])
+    actividad_clasificada, _ = clasificar_actividad_fisica(datos_usuario['actividad_fisica'])
+
+    # Clasificar cada preferencia del usuario
+    preferencias_clasificadas = [clasificar_preferencia(pref)[0] for pref in datos_usuario['preferencias']]
+
+    for regla, condiciones in reglas["reglas"].items():
         try:
-            # Ampliamos los rangos de pertenencia difusa
-            imc_fuzzy = trapezoidal(datos_usuario['imc'], *condiciones['imc'])
-            actividad_fisica_fuzzy = trapezoidal(datos_usuario['actividad_fisica'], *condiciones['actividad_fisica'])
+            # Verificar coincidencias exactas
+            genero_match = condiciones['genero'] == datos_usuario['genero']
+            objetivo_match = condiciones['objetivo'] == datos_usuario['objetivo']
+            imc_match = condiciones['imc'] == imc_clasificado
+            actividad_match = condiciones['actividad_fisica'] == actividad_clasificada
             
-            # Permitir cierta flexibilidad en género y objetivo (usamos un rango continuo de pertenencia)
-            genero_fuzzy = 1 if condiciones['genero'] == datos_usuario['genero'] else 0.8  # Se asigna 0.8 si el género no es exactamente igual
-            objetivo_fuzzy = 1 if datos_usuario['objetivo'] == condiciones['objetivo'] else 0.8  # Flexibilidad en el objetivo
-
-            # Condiciones médicas, evaluamos con cierta flexibilidad
-            condiciones_medicas_fuzzy = sum([1 if condiciones[f'condicion_{i}'] == datos_usuario['condiciones'][i-1] else 0.8 for i in range(1, 5)]) / 4
+            # Evaluar coincidencias exactas de condiciones médicas
+            condiciones_medicas_match = all(condiciones[f'condicion_{i}'] == datos_usuario['condiciones'][i-1] 
+                                            for i in range(1, 5))
             
-            # Flexibilidad en las preferencias alimenticias
-            preferencias_fuzzy = sum([1 - abs(condiciones[f'preferencia_{i}'] - datos_usuario['preferencias'][i-1]) for i in range(1, 5)]) / 4  # Suavizar la diferencia
+            # Evaluar coincidencias exactas de preferencias
+            preferencias_match = all(condiciones[f'preferencia_{i}'] == preferencias_clasificadas[i-1] 
+                                     for i in range(1, 5))
 
-            # Se puede optar por el producto o promedio para combinar
-            resultado = (imc_fuzzy + actividad_fisica_fuzzy + genero_fuzzy + objetivo_fuzzy + condiciones_medicas_fuzzy + preferencias_fuzzy) / 6
-            resultados[regla] = resultado
+            # Calcular un puntaje general para la regla
+            puntaje = (
+                (1 if genero_match else 0) + 
+                (1 if objetivo_match else 0) + 
+                (1 if imc_match else 0) + 
+                (1 if actividad_match else 0) + 
+                (1 if condiciones_medicas_match else 0) + 
+                (1 if preferencias_match else 0)
+            ) / 6
+
+            resultados[regla] = puntaje
         except KeyError as e:
             print(f"Error: Falta una clave en las reglas - {e}")
             continue
     return resultados
 
-# Seleccionar la recomendación basándose en la regla con mayor pertenencia
+
+# Seleccionar la recomendación basada en la regla con mayor pertenencia
 def obtener_recomendacion(resultados, recomendaciones, umbral=0.4):
     # Filtrar las reglas que superen el umbral de pertenencia
     reglas_validas = {regla: valor for regla, valor in resultados.items() if valor > umbral}
